@@ -1,0 +1,79 @@
+UNIQUE ID,TERMINAL,NEAR GATE(S),NAME,TIMES,OPEN,CLOSE,TYPE,PRICE,B,V,GF,SPEED,LOGO,MENU/WEBSITE
+1,A,A12,Belgian Beer Café,Daily,6:00 AM,8:00 PM,Kiosk,$,NO,,,To-go,link,http://www.belgianbeercafe.us/
+2,A,A1 - A15,Blaze Pizza,Daily,6:00 AM,10:00 PM,Pizza/Italian,$,NO,YES,YES,Food court,link,http://www.blazepizza.com/menu/
+3,A,A17 - A30,Brookwood Farms,Daily,6:00 AM,9:00 PM,BBQ/Southern,$$,NO,,,Food court,link,http://brookwoodfarms.com/index.php/products/
+4,A,A17 - A30,Chili's Too,Daily,5:00 AM,10:00 PM,American,$$,NO,YES,,Food court,link,http://www.chilis.com/EN/Pages/home.aspx
+5,A,A1 - A15,Jetbox Market,Daily,5:00 AM,9:00 PM,Coffee/Breakfast,$,NO,,,Food court,,
+6,A,A1 - A15,Mango Taco Truck,Daily,5:00 AM,9:00 PM,Mexican,$,NO,YES,,Food court,,
+7,A,A1 - A15,Re+Barᴺᵒ9,Daily,5:00 AM,9:00 PM,American,$$,NO,,,Sit-down,,
+8,A,A26,Re+Barᴺᵒ9,Daily,5:00 AM,8:30 PM,American,$$,NO,,,Sit-down,,
+9,A,Pre-security,Starbucks,Daily,5:00 AM,9:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.starbucks.com/
+10,A,A1 - A15,Starbucks,Daily,4:45 AM,10:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.starbucks.com/
+11,A,A17 - A30,Starbucks,Daily,4:35 AM,10:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.starbucks.com/
+12,A,A17 - A30,Urban Market,Daily,6:00 AM,9:30 PM,Kiosk,$$,NO,YES,,To-go,link,
+13,A,A17 - A30,Wendy's,Daily,4:00 AM,10:00 PM,American,$,NO,,,To-go,link,https://www.wendys.com/
+14,B,B1 - B31,3rd Bar Eating House,Daily,6:30 AM,10:00 PM,Seafood,$$,NO, ,,To-go,,http://www.hmshost.com/brands/3rd-bar-eating-house#
+15,B,B1 - B31,Barcüterie,Daily,7:00 AM,9:00 PM,American,$$,NO,,,Sit-down,,
+16,B,Post-security,Brookwood Farms,Daily,6:00 AM,9:00 PM,BBQ/Southern,$$,NO,,,Food court,link,http://brookwoodfarms.com/index.php/products/
+17,B,B1 - B31,Bullritos,Daily,6:00 AM,9:30 PM,Mexican,$,NO,,,To-go,link,http://www.bullritos.com/menu/
+18,B,B84 - B88,Cafe Adobe,Daily,6:00 AM,9:00 PM,Mexican,$$,NO,,,Sit-down,link,http://cafeadobe.com/menu/
+19,B,B83,Craft Tavern,Daily,6:00 AM,9:00 PM,Kiosk,$,NO,,,To-go,,
+20,B,B1 - B31,Famous Famiglia,Daily,6:00 AM,9:30 PM,Pizza/Italian,$,NO,,,To-go,link,http://famousfamiglia.com/our-lunchdinner-menu/
+21,B,B1 - B31,Fresh Gourmet Marketplace,Daily,12:00 AM,12:00 AM,Kiosk,$,NO,YES,,To-go,,
+22,B,Post-security,Jetbox Market,Daily,6:00 AM,9:00 PM,Coffee/Breakfast,$,NO,,,Food court,,
+23,B,Post-security,Mango Taco Truck,Daily,5:30 AM,9:00 PM,Mexican,$,NO,YES,,Food court,,
+24,B,B1 - B31,Panda Express,Daily,7:00 AM,9:30 PM,Asian,$,NO,,,To-go,link,https://www.pandaexpress.com/menu
+25,B,Pre-security,Peet's Coffee & Tea,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.peets.com/stores.html
+26,B,B84 - B88,Peet's Coffee & Tea,Daily,6:00 AM,10:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.peets.com/stores.html
+27,B,B88,Re+Barᴺᵒ9,Daily,6:00 AM,9:00 PM,American,$$,NO,,,Sit-down,,
+28,B,B1 - B31,Starbucks,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,NO,YES,,To-go,link,http://www.starbucks.com/
+29,B,B1 - B31,The Frutería,Daily,6:30 AM,9:00 PM,Mexican,$,NO,,,To-go,link,http://chefjohnnyhernandez.com/thefruteria/menu.php
+30,B,B1 - B31,Whataburger,Daily,6:00 AM,9:30 PM,American,$,NO,,,To-go,link,http://whataburger.com/food
+31,C,C14,Camden food co.,Daily,6:00 AM,9:30 PM,Healthy,$,NO,YES,YES,To-go,link,http://www.camdenfoodco.com/
+32,C,C43,Center Bar,Daily,12:00 PM,9:30 PM,Bar,$,YES,,,Sit-down,,
+33,C,C42,Einstein Bros. Bagels,Daily,5:00 AM,9:30 PM,Coffee/Breakfast,$,NO,,,To-go,link,http://www.einsteinbros.com/menu/bagels-and-shmear
+34,C,Baggage Claim,Jetbox Market,Daily,6:00 AM,9:00 PM,Coffee/Breakfast,$,,,,To-go,,
+35,C,C42,La Salsa,Daily,6:00 AM,9:00 PM,Mexican,$,,,,To-go,,
+36,C,C33,Le Grand Comptoir,Daily,6:00 AM,9:30 PM,French/Bistro,$$$,,YES,YES,Sit-down,,
+37,C,C23,Mango Taco Truck,Daily,6:00 AM,9:30 PM,Mexican,$,,YES,,Food court,,
+38,C,C33,Panopolis,Daily,6:00 AM,9:30 PM,Deli,$,,,,To-go,,
+39,C,C34,Pink's Pizza,Daily,6:00 AM,10:00 PM,Pizza/Italian,$,,YES,,To-go,link,http://pinkspizza.com/
+40,C,C23,Pizza Vino,Daily,5:00 AM,9:30 PM,Pizza/Italian,$,,,,To-go,,
+41,C,C23,Popeyes,Daily,6:00 AM,9:30 PM,BBQ/Southern,$,,,,To-go,link,https://popeyes.com/menu/
+42,C,C42,Rocket & Rye,Daily,6:00 AM,10:00 PM,American,$$,YES,,,Sit-down,,
+43,C,C14,Starbucks,Daily,4:30 AM,9:30 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+44,C,C33,Starbucks,Daily,5:00 AM,9:30 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+45,C,C23,Subway,Daily,6:00 AM,9:30 PM,Deli,$,,YES,,To-go,link,http://www.subway.com/en-us/menunutrition/menu
+46,C,C23,The Locat at IAH,Daily,6:00 AM,9:00 PM,American,$$,YES,YES,,Sit-down,,
+47,C,C34,the Real Food company,Daily,6:00 AM,9:30 PM,BBQ/Southern,$,,YES,,To-go,,
+48,C,C43,Upper Crust,Daily,6:00 AM,9:30 PM,Deli,$,,,,To-go,,
+49,C,C33,Urban Crave,Daily,6:00 AM,9:30 PM,American,$,YES,,,Sit-down,,
+50,C,C42,Wendy's,Daily,6:00 AM,10:00 PM,American,$,,,,To-go,link,https://www.wendys.com/
+51,D,D6,Houston Burger Company,Daily,5:30 AM,12:00 AM,American,$$,YES,,,Sit-down,,
+52,D,D6,Peet's Coffee & Tea,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.peets.com/stores.html
+53,D,D9,Re+Barᴺᵒ9,Daily,9:30 AM,7:30 PM,American,$$,YES,,,Sit-down,,
+54,D,Pre-security,Starbucks,Daily,6:00 AM,10:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+55,E,E12,Auntie Anne's / Nestle Toll House Café,Daily,6:30 AM,9:30 PM,Munchies/Treats,$,,YES,,To-go,link,"https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwj694rIseLNAhUr8IMKHTZzBE4QjBAIKDAC&url=http%3A%2F%2Fwww.auntieannes.com%2Fpretzels-nutrition&usg=AFQjCNEXY_A0RbelMabOguib7M4MwCB-lw&sig2=s3s7ZmetO4GH7cYZ0pH2Tw&bvm=bv.126130881,d.amc"
+56,E,E10,Cat Cora's Kitchen,Daily,6:30 AM,10:00 PM,BBQ/Southern,$$$,,YES,,Sit-down,link,http://catcora.com/restaurants/
+57,E,E12,Cinnabon,Daily,6:30 AM,9:30 PM,Munchies/Treats,$,,,,To-go,link,http://www.cinnabon.com/bakery-treats
+58,E,E11,Dunkin' Donuts,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,,,,To-go,link,http://www.dunkindonuts.com/dunkindonuts/en/menu.html
+59,E,E1,Einstein Bros. Bagels,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,,,,Food court,link,http://www.einsteinbros.com/menu/bagels-and-shmear
+60,E,E1,Famous Famiglia,Daily,5:00 AM,11:00 PM,Pizza/Italian,$,,,,Food court,link,http://famousfamiglia.com/our-lunchdinner-menu/
+61,E,E18,Fresh Gourmet,Daily,6:00 AM,9:00 PM,Kiosk,$,,,,To-go,,
+62,E,E1,La Tapenade Mediterranean Café,Daily,6:00 AM,9:30 PM,Mediterranean,$,,YES,,Food court,,
+63,E,E19,Le Grand Comptoir,Daily,6:00 AM,9:00 PM,French/Bistro,$$$,,YES,YES,Sit-down,,
+64,E,E24,Nature's Kitchen Fresh Cafe,Daily,5:00 AM,9:00 PM,Healthy,$,,YES,,To-go,,
+65,E,E1,Panda Express,Daily,6:00 AM,10:00 PM,Asian,$,,,,Food court,link,https://www.pandaexpress.com/menu
+66,E,E3,Pappadeux Seafood Kitchen,Daily,9:00 AM,10:00 PM,Seafood,$$,,YES,YES,Sit-down,link,https://pappadeaux.com/menu/
+67,E,E1,Pappasito's Cantina,Daily,6:00 AM,10:00 PM,Mexican,$$,,YES,,Food court,link,http://pappasitos.com/menu/
+68,E,E16,Republic Grille,Daily,5:00 AM,9:30 PM,American,$$,,,YES,Sit-down,,
+69,E,Post-security,Ruby's Diner,Daily,5:30 AM,10:00 PM,American,$$,YES,,,To-go,link,http://www.rubys.com/menu/index.html
+70,E,E2,Starbucks,Daily,5:00 AM,11:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+71,E,E24,Starbucks,Daily,5:00 AM,9:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+72,E,E1,The Market by Villa,Daily,6:00 AM,10:00 PM,Deli,$,,YES,,Food court,,
+73,E,E6,Urban Crave,Daily,6:00 AM,10:00 PM,American,$,YES,,,Sit-down,,
+74,E,E24,Wendy's,Daily,5:00 AM,9:00 PM,American,$,,,,To-go,link,https://www.wendys.com/
+75,E,E1,Yogen Früz,Daily,5:00 AM,10:00 PM,Munchies/Treats,$,,,,To-go,,
+76,E,E24,Zori Bistro,Daily,5:00 AM,9:00 PM,Asian,$,,YES,YES,To-go,,
+77,E,Int'l Arrivals,Starbucks,Daily,6:30 AM,9:30 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
+78,C?,E1,Subway,Daily,6:00 AM,9:30 PM,Deli,$,,YES,,To-go,link,http://www.subway.com/en-us/menunutrition/menu
