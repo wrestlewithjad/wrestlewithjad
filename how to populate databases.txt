@@ -1,0 +1,15 @@
+at command line, 
+knex migrate:latest
+
+then,
+
+To populate airport/restaurant databases, go into sqlite3 terminal and
+
+
+sqlite> .separator ','
+
+sqlite> .import airports.csv airports
+
+sqlite> .import restaurants.csv restaurants
+
+sqlite> .import join.csv airportRestaurants
