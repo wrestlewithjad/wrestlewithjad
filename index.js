@@ -47,20 +47,24 @@ app.use(passport.session());
 
 
 app.get('/', function(req, res) {
+	//console.log("req",req)
+	console.log("authentic",req.isAuthenticated())
+	//res.send(req) //the req passes in a session id.
 	res.sendFile(__dirname + '/public/client/index.html')
 })
 
 
-
-// app.post('/signup', function(req,res) {
-// 	console.log("yooooo")
-// 	getSessionID('tony')
-// 	res.send("heyyyyy")
-// 	//check if user is already in database.  If not, add to DB and log in.
-
-// })
+app.get('/LoggedIn',function(req,res){
+	if(req.isAuthenticated()){
+		res.send(req.sessionID);
+	}else{
+		res.send(false);
+	}
+	
+})
 
 app.get('/review', function(req,res) {
+	//console.log("authentic",req.isAuthenticated)
 	res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
@@ -122,8 +126,8 @@ function getSessionID(userId){
    // return db('sessions').returning(['id']).insert({ id: id, user_id: userId }).then(function(here){
    //   return id
    // })
-
 }
+
 
 var userName = "phil"
 var password = 'test32';
@@ -143,7 +147,7 @@ var magic = findByUserName(userName).then(function(value) {
 		console.log("err",err)
 	})
 	
-	console.log("magic", value)
+	//console.log("magic", value)
 })
 
 // knex('users').insert({username:'chuck',password:'test'}).then(function(value){
@@ -223,10 +227,10 @@ var magic = findByUserName(userName).then(function(value) {
 //})
 app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	console.log('req',req.session.passport.user)
-	console.log('res',req.sessionID)
+	//console.log('res',req)
 	//insert sessionID into database
 	res.send(req.sessionID)
-	//console.log("req",req)
+	
 })
 app.post('/signIn', function() {
 	var username = req.body.username;

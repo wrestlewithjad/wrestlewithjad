@@ -10,8 +10,19 @@ class LogInOut extends Component {
   constructor(props){
     super(props)
     this.state={userName:"",
-                password:""};
+                password:""}
+
+
   }
+  componentDidMount(){
+    axios.get('/LoggedIn').then(value =>{
+        console.log("heyyyy",value.data);
+        if(value.data)
+          this.props.fetchSessionID(value.data);
+        else
+          this.props.fetchSessionID("");
+      })
+      }
 
 
   render() {
