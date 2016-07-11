@@ -14,13 +14,13 @@ var knex = require('knex')({
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {
-	console.log("SU",user,done)
+	//console.log("SU",user,done)
   done(null, user);   //this value is stored in req.session.passport.user
 });
 
 passport.deserializeUser(function(obj, done) {
   
-	console.log("DU",obj,done)
+	//console.log("DU",obj,done)
   done(null, obj);
 });
 
@@ -38,7 +38,7 @@ passport.use('local-signup',new LocalStrategy(
 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
 			}
 			addUser(username,password).then(function(value){
-				console.log('UN',username,'PW',password,'HASH',value)
+				//console.log('UN',username,'PW',password,'HASH',value)
 					return callback(null,username)			
 			})
 			
@@ -56,7 +56,7 @@ passport.use('local-login',new LocalStrategy(
 		//email = "hello"
 
 		knex.select('username','password').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
-			console.log("userValue",value)
+			//console.log("userValue",value)
 			if(value.length>0){
 				comparePassword(value[0].password,password).then(function(value){
 					console.log("good password")

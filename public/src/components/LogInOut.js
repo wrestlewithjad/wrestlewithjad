@@ -30,16 +30,16 @@ class LogInOut extends Component {
     return (
       <div>
       {this.state.loaded?<div>
-      <form>
-        <label>username</label>
-        <input type = 'text' className = "form-control" value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>
-        <label>Categories</label>               
-        <input type = 'text' className = "form-control" value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
-        {this.props.sessionID.length ===0 ? <div><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
-                                            <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button></div>: 
-                                            <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
-      </form>
       
+      {this.props.sessionID.length ===0 ? <div><form><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+                                            <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button>
+                                           
+        <input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
+        <input type = 'text' className = "form-control" placeholder = 'password' value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
+        
+      </form>
+      </div>: 
+       <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
       <a href = '/auth/github'> Try thiis </a>
       </div>:null}
       </div>
@@ -65,7 +65,10 @@ class LogInOut extends Component {
   onLogIn(event){
     event.preventDefault();
     axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
+      this.props.fetchSessionID(value.data)
       console.log('log in value',value);
+    }).catch(function(err){
+      console.log("error",err)
     })
 
   }
