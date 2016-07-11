@@ -5,6 +5,6 @@ export function fetchSessionID(sessionId){
 	console.log("comment",sessionId)
 	return {	
 		type: FETCH_SESSIONID,
-		payload : sessionId
+		payload : sessionId 
 	}
 }
