@@ -128,7 +128,11 @@ app.get('/restaurantList',function(req,res){
 	//var city = req.body.city;
 	
 	var city = "Houston";
-	var user = req.user.userID
+	var user;
+	if(req.user)
+		user = req.user.userID;
+	else
+		user = "";
 	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
 		//console.log('airportValues',airportValues);
 		//console.log("WOA",airportValues[0]['UNIQUE_ID'])
