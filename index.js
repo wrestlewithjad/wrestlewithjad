@@ -56,6 +56,8 @@ app.get('/', function(req, res) {
 
 app.get('/LoggedIn',function(req,res){
 	if(req.isAuthenticated()){
+		console.log("REQ",req)
+		console.log("REQ_USER",req.user)
 		res.send(req.sessionID);
 	}else{
 		res.send(false);
@@ -117,22 +119,24 @@ app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
 	//check if user credentials are good
 })
 app.post('/logOff',function(req,res){
+	console.log()
 	req.logout();
 	req.session.destroy();
 	res.send("logged Out")
 })
 app.get('/restaurantList',function(req,res){
 	//var city = req.body.city;
+	
 	var city = "Houston";
-	//var user = req.body.id;  'AIRPORT CITY',city
+	var user = req.user.userID
 	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
-		console.log('airportValues',airportValues);
-		console.log("WOA",airportValues[0]['UNIQUE_ID'])
+		//console.log('airportValues',airportValues);
+		//console.log("WOA",airportValues[0]['UNIQUE_ID'])
 
 		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
 			knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
-				console.log("THIS IS WORKING",value)
+				//console.log("THIS IS WORKING",value)
 				var restaurantsAndUserReviews = [value,userValues]
 				res.send(restaurantsAndUserReviews)
 			})

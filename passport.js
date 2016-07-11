@@ -14,7 +14,7 @@ var knex = require('knex')({
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {
-	console.log("SU",user,done)
+	//console.log("SU",user,done)
   done(null, user);   //this value is stored in req.session.passport.user
 });
 
