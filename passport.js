@@ -59,14 +59,20 @@ passport.use('local-login',new LocalStrategy(
 			//console.log("userValue",value)
 			if(value.length>0){
 				comparePassword(value[0].password,password).then(function(value){
-					console.log("good password")
+					if(value ===true)
+						return callback(null,true);
+					else
+						return callback(null,false);  
 				}).catch(function(value){
 					console.log("bad password",value)
+					return callback(null,true);  
 				})
-				return callback(null,true);  
+				
 
+			}else{
+				return callback(null,false)
 			}
-			return callback(null,false)
+			
 		})
 	})
 }))
