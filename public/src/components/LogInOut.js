@@ -15,6 +15,7 @@ class LogInOut extends Component {
 
 
   render() {
+ console.log("ID",this.props.sessionID)
     return (
       <div>
       <form>
@@ -22,8 +23,8 @@ class LogInOut extends Component {
         <input type = 'text' className = "form-control" value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>
         <label>Categories</label>               
         <input type = 'text' className = "form-control" value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
-        <button type = 'submit' onClick = {this.onButtonClick.bind(this)}>Sign Up!</button>
-        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>
+        {this.props.sessionID.length ===0 ?<button type = 'submit' onClick = {this.onButtonClick.bind(this)}>Sign Up!</button>: 
+        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
       </form>
       
       <a href = '/auth/github'> Try thiis </a>
@@ -49,7 +50,10 @@ class LogInOut extends Component {
   onLogOff(event){
     event.preventDefault();
     console.log(this.props.sessionID)
-    axios.post('/logOff',{id:this.props.sessionID})this.props.fetchSessionID("");
+    axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
+        this.props.fetchSessionID("");
+    })
+  
   }
 }
 
