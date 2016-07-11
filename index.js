@@ -30,7 +30,7 @@ var passport = require('passport');
 //var GitHubStrategy = require('passport-github2').Strategy;
 var session = require('express-session');
 var LocalStrategy   = require('passport-local').Strategy;
-console.log('LS',LocalStrategy)
+//console.log('LS',LocalStrategy)
 var GITHUB_CLIENT_ID = "6b4078dcd8c8aae79a63";
 var GITHUB_CLIENT_SECRET = "7319b8f69f730102c7cc6d7979363ee63f007d44";
 //require('./app/routes.js')(app, passport);
@@ -48,7 +48,7 @@ app.use(passport.session());
 
 app.get('/', function(req, res) {
 	//console.log("req",req)
-	console.log("authentic",req.isAuthenticated())
+	//console.log("authentic",req.isAuthenticated())
 	//res.send(req) //the req passes in a session id.
 	res.sendFile(__dirname + '/public/client/index.html')
 })
@@ -73,15 +73,6 @@ app.post('/review', function() {
 	})
 	//add the review to the restaurant at that airport.
 
-function addUser(userName, password) {
-	return hashPassword(password)
-		.then(function(hashWord) {
-			return knex('users').insert({
-				username: userName,
-				password: hashWord
-			})
-		})
-}
 
 var findByUserName = function(myName) {
 	return knex.select('username', 'password').from('users').where({
@@ -97,134 +88,16 @@ var findByUserName = function(myName) {
 
 
 
-function hashPassword(password) {
-
-	return new Promise(function(resolve, reject) {
-
-		bcrypt.hash(password, null, null, function(err, hash) {
-			if (err) reject(err)
-			else resolve(hash)
-		});
-	})
-};
-
-function comparePassword(passwordHashFromDatabase, attemptedPassword) {
-	console.log("hhhhhh")
-	return new Promise(function(resolve, reject) {
-
-		bcrypt.compare(attemptedPassword, passwordHashFromDatabase, function(err, res) {
-			if (err) reject(err)
-			else resolve(res)
-		});
-	})
-};
-
-function getSessionID(userId){
-	 var id = uuid.v4();
-   console.log("id",id)
-   console.log("uid",userId)
-   // return db('sessions').returning(['id']).insert({ id: id, user_id: userId }).then(function(here){
-   //   return id
-   // })
-}
-
-
-var userName = "phil"
-var password = 'test32';
-var magic = findByUserName(userName).then(function(value) {
-	if(!value){
-		addUser(userName,password).then(function(newValue){
-			console.log("info",newValue);
-		})
-	}
-	else{
-		console.log("userName already taken")
-
-	}
-	comparePassword(value.password, password).then(function(value){
-		console.log("value",value)
-	}).catch(function(err){
-		console.log("err",err)
-	})
-	
-	//console.log("magic", value)
-})
-
-// knex('users').insert({username:'chuck',password:'test'}).then(function(value){
-// 	console.log("val",value)
-// })
-// knex('restaurants').insert({restaurantName:'Pizza Hut',terminal: "B",foodType:'pizza',restaurantPicture:'No pic',isSitDown:true,price:1}).then(function(val){
-
-// knex('airports').insert({airportName:'Houston',airportMap:'No Map!'}).then(function(val){
-// // knex('airportRestaurants').insert({airport_id:3,restaurant_id:1}).then(function(val){
-// // 	knex.select().from('airports').then(function(value){
-// // 	console.log("value",value)
-// // })	
-//  })
-
-// 	//console.log('val',val)
-
-// })
-
-//GIT HUB PASSPORT STUFF
-
-
-// passport.serializeUser(function(user, done) {
-// 	console.log("SU")
-//   done(null, user);
-// });
-
-// passport.deserializeUser(function(obj, done) {
-  
-// 	console.log("DU")
-//   done(null, obj);
-// });
-
-
-// passport.use('local-signup',new LocalStrategy(
-// 	function(username,password,callback){
-// 	console.log("ARGH",callback)
-// 	//console.log("")
-// 	process.nextTick(function(){
-// 		//email = "hello"
-
-// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
-// 			console.log("userValue",value)
-// 			if(value.length>0){
-// 				return callback(null,false);  //This sends back a 401 error.
-// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
-// 			}
-// 			return callback(null,true)
-// 		})
-// 	})
-// }))
-
-// passport.use('local-login',new LocalStrategy(
-// 	function(username,password,callback){
-// 	console.log("ARGH",callback)
-// 	//console.log("")
-// 	process.nextTick(function(){
-// 		//email = "hello"
-
-// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
-// 			console.log("userValue",value)
-// 			if(value.length>0){
-// 				return callback(null,false);  //This sends back a 401 error.
-// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
-// 			}
-// 			return callback(null,true)
-// 		})
-// 	})
-// }))
-
-
-
-// app.post('/signup',function(req,res){
-// 	passport.authenticate('local-signup'),function(err,user,info){
-// 		console.log("err",err,"user",user,"info",info)
-// 	res.send("hey there, you are passported!")
+// function getSessionID(userId){
+// 	 var id = uuid.v4();
+//    console.log("id",id)
+//    console.log("uid",userId)
+//    // return db('sessions').returning(['id']).insert({ id: id, user_id: userId }).then(function(here){
+//    //   return id
+//    // })
 // }
-//})
+
+
 app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	console.log('req',req.session.passport.user)
 	//console.log('res',req)
@@ -232,15 +105,15 @@ app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	res.send(req.sessionID)
 	
 })
-app.post('/signIn', function() {
+app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
 	var username = req.body.username;
 	var password = req.body.password;
-	findByUserName(username).then(function(value) {
-			checkPassword(password, value.password)
-				//check password
-		})
+	// findByUserName(username).then(function(value) {
+	// 		checkPassword(password, value.password)
+	// 			//check password
+	// 	})
 		//find by username in the username table.
-
+		res.send(req.sessionID)
 	//check if user credentials are good
 })
 app.post('/logOff',function(req,res){
