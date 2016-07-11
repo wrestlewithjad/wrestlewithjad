@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import SplashPage from './SplashPage'
+import LogInOut from './LogInOut'
 
 
 export default class App extends Component {
   render() {
     return (
-      <div>This is the App layer
-      <SplashPage />
+      <div>This is the Splash Page
+      <div>
+      <LogInOut />
+      </div>
       </div>
     );
   }

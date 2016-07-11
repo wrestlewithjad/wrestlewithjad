@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 const compiler = webpack(config);
 app.use(express.static(__dirname + '/public'));
 app.use(webpackMiddleware(compiler));
-
 var knex = require('knex')({
 	client: 'sqlite3',
 	connection: {
@@ -26,31 +25,43 @@ var knex = require('knex')({
 		tableName: 'airports'
 	}
 });
+
+var passport = require('passport');
+//var GitHubStrategy = require('passport-github2').Strategy;
+var session = require('express-session');
+var LocalStrategy   = require('passport-local').Strategy;
+console.log('LS',LocalStrategy)
+var GITHUB_CLIENT_ID = "6b4078dcd8c8aae79a63";
+var GITHUB_CLIENT_SECRET = "7319b8f69f730102c7cc6d7979363ee63f007d44";
+//require('./app/routes.js')(app, passport);
+require('./passport')(passport);
+
+
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/public/client/index.html')
 })
 
-app.post('/signIn', function() {
-	var username = req.body.username;
-	var password = req.body.password;
-	findByUserName(username).then(function(value) {
-			checkPassword(password, value.password)
-				//check password
-		})
-		//find by username in the username table.
 
-	//check if user credentials are good
-})
 
-app.post('/signup', function(req,res) {
-	console.log("yooooo")
-	getSessionID('tony')
-	res.send("heyyyyy")
-	//check if user is already in database.  If not, add to DB and log in.
+// app.post('/signup', function(req,res) {
+// 	console.log("yooooo")
+// 	getSessionID('tony')
+// 	res.send("heyyyyy")
+// 	//check if user is already in database.  If not, add to DB and log in.
 
-})
-app.get('/review', function() {
+// })
 
+app.get('/review', function(req,res) {
+	res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
 app.post('/review', function() {
@@ -152,82 +163,145 @@ var magic = findByUserName(userName).then(function(value) {
 // })
 
 //GIT HUB PASSPORT STUFF
-var passport = require('passport');
-var GitHubStrategy = require('passport-github2').Strategy;
-var session = require('express-session');
-
-var GITHUB_CLIENT_ID = "6b4078dcd8c8aae79a63";
-var GITHUB_CLIENT_SECRET = "7319b8f69f730102c7cc6d7979363ee63f007d44";
-
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+// passport.serializeUser(function(user, done) {
+// 	console.log("SU")
+//   done(null, user);
+// });
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:4040/auth/github/callback",
-    passReqToCallback: true
-  },
-  function(req, accessToken, refreshToken, profile, done) {
-    console.log( "req", Object.keys(req))
-    console.log( "profile", profile)
-    // User.gitFindById(profile.id).then(function(value){
-    //   if(value){
-    //     console.log("already in database",value)
-    //   }
-    //   else{
-    //     console.log("now it is in database",profile.id)
-    //     User.gitCreate(profile.id)
-    //   }
-    // })
+// passport.deserializeUser(function(obj, done) {
+  
+// 	console.log("DU")
+//   done(null, obj);
+// });
 
 
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
+// passport.use('local-signup',new LocalStrategy(
+// 	function(username,password,callback){
+// 	console.log("ARGH",callback)
+// 	//console.log("")
+// 	process.nextTick(function(){
+// 		//email = "hello"
 
-      //look up more user info (likes, etc) via database
-      //
+// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+// 			console.log("userValue",value)
+// 			if(value.length>0){
+// 				return callback(null,false);  //This sends back a 401 error.
+// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
+// 			}
+// 			return callback(null,true)
+// 		})
+// 	})
+// }))
+
+// passport.use('local-login',new LocalStrategy(
+// 	function(username,password,callback){
+// 	console.log("ARGH",callback)
+// 	//console.log("")
+// 	process.nextTick(function(){
+// 		//email = "hello"
+
+// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+// 			console.log("userValue",value)
+// 			if(value.length>0){
+// 				return callback(null,false);  //This sends back a 401 error.
+// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
+// 			}
+// 			return callback(null,true)
+// 		})
+// 	})
+// }))
 
 
 
-      // To keep the example simple, the user's GitHub profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the GitHub account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-  }
-));
-app.options('/auth/github', cors());
-app.get('/auth/github',
-  passport.authenticate('github', { scope: [ 'user:email' ] }),
-  function(req, res){
-    // The request will be redirected to GitHub for authentication, so this
-    // function will not be called.
-  });
+// app.post('/signup',function(req,res){
+// 	passport.authenticate('local-signup'),function(err,user,info){
+// 		console.log("err",err,"user",user,"info",info)
+// 	res.send("hey there, you are passported!")
+// }
+//})
+app.post('/signup',passport.authenticate('local-signup'),function(req,res){
+	console.log('req',req.session.passport.user)
+	console.log('res',req.sessionID)
+	//insert sessionID into database
+	res.send(req.sessionID)
+	//console.log("req",req)
+})
+app.post('/signIn', function() {
+	var username = req.body.username;
+	var password = req.body.password;
+	findByUserName(username).then(function(value) {
+			checkPassword(password, value.password)
+				//check password
+		})
+		//find by username in the username table.
 
-// GET /auth/github/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function will be called,
-//   which, in this example, will redirect the user to the home page.
-app.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/review' }),
-  function(req, res) {
-    console.log("auth",req.isAuthenticated())
+	//check if user credentials are good
+})
+app.post('/logOff',function(req,res){
+	req.logout();
+	req.session.destroy();
+	res.send("logged Out")
+})
 
-    res.send('hey now!')
-  });
+
+// passport.use(new GitHubStrategy({
+//     clientID: GITHUB_CLIENT_ID,
+//     clientSecret: GITHUB_CLIENT_SECRET,
+//     callbackURL: "http://localhost:4040/auth/github/callback",
+//     passReqToCallback: true
+//   },
+//   function(req, accessToken, refreshToken, profile, done) {
+//     console.log( "req", Object.keys(req))
+//     console.log( "profile", profile)
+//     // User.gitFindById(profile.id).then(function(value){
+//     //   if(value){
+//     //     console.log("already in database",value)
+//     //   }
+//     //   else{
+//     //     console.log("now it is in database",profile.id)
+//     //     User.gitCreate(profile.id)
+//     //   }
+//     // })
+
+
+//     // asynchronous verification, for effect...
+//     process.nextTick(function () {
+
+//       //look up more user info (likes, etc) via database
+//       //
+
+
+
+//       // To keep the example simple, the user's GitHub profile is returned to
+//       // represent the logged-in user.  In a typical application, you would want
+//       // to associate the GitHub account with a user record in your database,
+//       // and return that user instead.
+//       return done(null, profile);
+//     });
+//   }
+// ));
+//app.options('/auth/github', cors());
+// app.get('/auth/github',
+//   passport.authenticate('github', { scope: [ 'user:email' ] }),
+//   function(req, res){
+//     // The request will be redirected to GitHub for authentication, so this
+//     // function will not be called.
+//   });
+
+// // GET /auth/github/callback
+// //   Use passport.authenticate() as route middleware to authenticate the
+// //   request.  If authentication fails, the user will be redirected back to the
+// //   login page.  Otherwise, the primary route function will be called,
+// //   which, in this example, will redirect the user to the home page.
+// app.get('/auth/github/callback',
+//   passport.authenticate('github', { failureRedirect: '/review' }),
+//   function(req, res) {
+//     console.log("auth",req.isAuthenticated())
+
+//     res.send('hey now!')
+//   });
 
 
 

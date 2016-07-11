@@ -27,6 +27,7 @@
     "axios": "^0.12.0",
     "babel-preset-stage-1": "^6.1.18",
     "bcrypt-nodejs": "0.0.3",
+    "connect-flash": "^0.1.1",
     "cors": "^2.7.1",
     "express-session": "^1.14.0",
     "knex-csv-seeder": "^0.4.1",
@@ -34,10 +35,12 @@
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
+    "passport-local": "^1.0.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
-    "redux": "^3.0.4"
+    "redux": "^3.0.4",
+    "redux-form": "^5.3.1"
   }
 }
