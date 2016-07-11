@@ -139,12 +139,16 @@ app.get('/restaurantList',function(req,res){
 
 		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
+			if(req.isAuthenticated()){
 			knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
 				//console.log("THIS IS WORKING",value)
 				var restaurantsAndUserReviews = [value,userValues]
 				res.send(restaurantsAndUserReviews)
 			})
-			
+			}	
+			else{
+				res.send(value)
+			}
 		})
 
 
