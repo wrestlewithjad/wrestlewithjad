@@ -26,6 +26,7 @@ class LogInOut extends Component {
           this.props.fetchSessionID("");
         this.setState({loaded:true})
       })
+    
       }
 
 
@@ -44,7 +45,7 @@ class LogInOut extends Component {
       </form>
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
-      <a href = '/auth/github'> Try thiis </a>
+       <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
       </div>:null}
       </div>
     );
@@ -88,6 +89,13 @@ class LogInOut extends Component {
         this.props.fetchSessionID("");
     })
   
+  }
+  getRestaurants(event){
+    event.preventDefault();
+    console.log("hea");
+     axios.get('/restaurantList',{id:this.props.sessionID}).then(function(value){
+       console.log("here",value)
+     })
   }
 }
 

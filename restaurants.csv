@@ -1,4 +1,4 @@
-UNIQUE ID,TERMINAL,NEAR GATE(S),NAME,TIMES,OPEN,CLOSE,TYPE,PRICE,B,V,GF,SPEED,LOGO,MENU/WEBSITE
+UNIQUE_ID,TERMINAL,NEAR_GATE,NAME,TIMES,OPEN,CLOSE,TYPE,PRICE,B,V,GF,SPEED,LOGO,MENU_WEBSITE
 1,A,A12,Belgian Beer Café,Daily,6:00 AM,8:00 PM,Kiosk,$,NO,,,To-go,link,http://www.belgianbeercafe.us/
 2,A,A1 - A15,Blaze Pizza,Daily,6:00 AM,10:00 PM,Pizza/Italian,$,NO,YES,YES,Food court,link,http://www.blazepizza.com/menu/
 3,A,A17 - A30,Brookwood Farms,Daily,6:00 AM,9:00 PM,BBQ/Southern,$$,NO,,,Food court,link,http://brookwoodfarms.com/index.php/products/
