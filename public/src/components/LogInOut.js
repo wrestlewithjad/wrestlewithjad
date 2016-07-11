@@ -10,17 +10,18 @@ class LogInOut extends Component {
   constructor(props){
     super(props)
     this.state={userName:"",
-                password:""}
+                password:"",
+                loaded:false}
 
 
   }
-  componentDidMount(){
-    axios.get('/LoggedIn').then(value =>{
-        console.log("heyyyy",value.data);
+  componentDidMount(){     //Think about putting the axios in the render function to prevent the split second switch.  Would force a lot of server calls though
+    axios.get('/LoggedIn').then(value =>{   
         if(value.data)
           this.props.fetchSessionID(value.data);
         else
           this.props.fetchSessionID("");
+        this.setState({loaded:true})
       })
       }
 
@@ -28,6 +29,7 @@ class LogInOut extends Component {
   render() {
     return (
       <div>
+      {this.state.loaded?<div>
       <form>
         <label>username</label>
         <input type = 'text' className = "form-control" value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>
@@ -39,6 +41,7 @@ class LogInOut extends Component {
       </form>
       
       <a href = '/auth/github'> Try thiis </a>
+      </div>:null}
       </div>
     );
   }
