@@ -11,7 +11,7 @@ class LogInOut extends Component {
     super(props)
     this.state={userName:"",
                 password:"",
-                loaded:false}
+                loaded:false}  //Might need to turn this into a prop force entire app to load at once.
 
 
   }
@@ -54,6 +54,7 @@ class LogInOut extends Component {
 
   onSignUp(event){   //Have clicking signup call parent component to show email/password forms
   	event.preventDefault();
+    console.log('sign up event')
   	axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
       this.props.fetchSessionID(value.data)
   	}).catch(function(err){
@@ -63,6 +64,9 @@ class LogInOut extends Component {
   }
   onLogIn(event){
     event.preventDefault();
+    axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
+      console.log('log in value',value);
+    })
 
   }
   onLogOff(event){

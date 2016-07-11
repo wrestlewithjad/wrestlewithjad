@@ -48,7 +48,7 @@ app.use(passport.session());
 
 app.get('/', function(req, res) {
 	//console.log("req",req)
-	console.log("authentic",req.isAuthenticated())
+	//console.log("authentic",req.isAuthenticated())
 	//res.send(req) //the req passes in a session id.
 	res.sendFile(__dirname + '/public/client/index.html')
 })
@@ -181,41 +181,6 @@ var magic = findByUserName(userName).then(function(value) {
 // });
 
 
-// passport.use('local-signup',new LocalStrategy(
-// 	function(username,password,callback){
-// 	console.log("ARGH",callback)
-// 	//console.log("")
-// 	process.nextTick(function(){
-// 		//email = "hello"
-
-// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
-// 			console.log("userValue",value)
-// 			if(value.length>0){
-// 				return callback(null,false);  //This sends back a 401 error.
-// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
-// 			}
-// 			return callback(null,true)
-// 		})
-// 	})
-// }))
-
-// passport.use('local-login',new LocalStrategy(
-// 	function(username,password,callback){
-// 	console.log("ARGH",callback)
-// 	//console.log("")
-// 	process.nextTick(function(){
-// 		//email = "hello"
-
-// 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
-// 			console.log("userValue",value)
-// 			if(value.length>0){
-// 				return callback(null,false);  //This sends back a 401 error.
-// 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
-// 			}
-// 			return callback(null,true)
-// 		})
-// 	})
-// }))
 
 
 
@@ -232,15 +197,15 @@ app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	res.send(req.sessionID)
 	
 })
-app.post('/signIn', function() {
+app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
 	var username = req.body.username;
 	var password = req.body.password;
-	findByUserName(username).then(function(value) {
-			checkPassword(password, value.password)
-				//check password
-		})
+	// findByUserName(username).then(function(value) {
+	// 		checkPassword(password, value.password)
+	// 			//check password
+	// 	})
 		//find by username in the username table.
-
+		res.send(req.sessionID)
 	//check if user credentials are good
 })
 app.post('/logOff',function(req,res){
