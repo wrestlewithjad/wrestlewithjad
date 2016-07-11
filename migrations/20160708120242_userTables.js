@@ -8,8 +8,8 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('userAirportJoin',function(table){
     	table.integer('user_id').unsigned().references('userID').inTable('users');
-    	table.integer('airport_id').unsigned().references('airportID').inTable('airports');
-      	table.integer('restaurant_id').unsigned().references('restaurantID').inTable('restaurants');
+    	table.integer('airport_id').unsigned().references('UNIQUE_ID').inTable('airports');
+      	table.integer('restaurant_id').unsigned().references('UNIQUE_ID').inTable('restaurants');
       	table.integer('userScore');
     }),
     knex.schema.table('airportRestaurants', function(table){

@@ -26,6 +26,9 @@ class LogInOut extends Component {
           this.props.fetchSessionID("");
         this.setState({loaded:true})
       })
+    axios.get('/restaurantList').then(function(value){
+      console.log("here",value)
+    })
       }
 
 

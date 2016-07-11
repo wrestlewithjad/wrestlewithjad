@@ -1,5 +1,5 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var bcrypt = require('bcrypt-nodejs');
+var LocalStrategy   = require('passport-local').Strategy;  //Might want to store session info in Redis store instead of cookies or might need to hash user ID.
+var bcrypt = require('bcrypt-nodejs');						//Need to fix desereializeUser so that it works correctly
 
 
 var knex = require('knex')({

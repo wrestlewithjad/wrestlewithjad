@@ -121,6 +121,36 @@ app.post('/logOff',function(req,res){
 	req.session.destroy();
 	res.send("logged Out")
 })
+app.get('/restaurantList',function(req,res){
+	//var city = req.body.city;
+	var city = "Houston";
+	//var user = req.body.id;  'AIRPORT CITY',city
+	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
+		console.log('airportValues',airportValues);
+		console.log("WOA",airportValues[0]['UNIQUE_ID'])
+
+		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
+		.then(function(value){
+			knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
+				console.log("THIS IS WORKING",value)
+				var restaurantsAndUserReviews = [value,userValues]
+				res.send(restaurantsAndUserReviews)
+			})
+			
+		})
+
+
+	 // 	knex.select().from('airportRestaurants').where('airport_id' , airportValues[0]['UNIQUE_ID']).then(function(value){
+	 // 		console.log('allyourInfo',value)
+	 // 		knex.select().from('restaurants').where('UNIQUE_ID',value[0]) //Want a join table here
+	 // 		res.send(value)
+
+	 // })
+
+	})
+	
+
+})
 
 
 // passport.use(new GitHubStrategy({
