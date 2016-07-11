@@ -49,7 +49,7 @@ class LogInOut extends Component {
   onLogOff(event){
     event.preventDefault();
     console.log(this.props.sessionID)
-    axios.post('/logOff',{id:this.props.sessionID})
+    axios.post('/logOff',{id:this.props.sessionID})this.props.fetchSessionID("");
   }
 }
 
