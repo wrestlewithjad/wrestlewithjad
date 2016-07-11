@@ -10,23 +10,38 @@ class LogInOut extends Component {
   constructor(props){
     super(props)
     this.state={userName:"",
-                password:""};
+                password:"",
+                loaded:false}
+
+
   }
+  componentDidMount(){     //Think about putting the axios in the render function to prevent the split second switch.  Would force a lot of server calls though
+    axios.get('/LoggedIn').then(value =>{   
+        if(value.data)
+          this.props.fetchSessionID(value.data);
+        else
+          this.props.fetchSessionID("");
+        this.setState({loaded:true})
+      })
+      }
 
 
   render() {
     return (
       <div>
+      {this.state.loaded?<div>
       <form>
         <label>username</label>
         <input type = 'text' className = "form-control" value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>
         <label>Categories</label>               
         <input type = 'text' className = "form-control" value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
-        <button type = 'submit' onClick = {this.onButtonClick.bind(this)}>Sign Up!</button>
-        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>
+        {this.props.sessionID.length ===0 ? <div><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+                                            <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button></div>: 
+                                            <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
       </form>
       
       <a href = '/auth/github'> Try thiis </a>
+      </div>:null}
       </div>
     );
   }
@@ -37,7 +52,7 @@ class LogInOut extends Component {
     this.setState({password})
   }
 
-  onButtonClick(event){   //Have clicking signup call parent component to show email/password forms
+  onSignUp(event){   //Have clicking signup call parent component to show email/password forms
   	event.preventDefault();
   	axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
       this.props.fetchSessionID(value.data)
@@ -46,10 +61,17 @@ class LogInOut extends Component {
   	//this.props.fetchComment(this.state.term)
   	//this.setState({term:""})
   }
+  onLogIn(event){
+    event.preventDefault();
+
+  }
   onLogOff(event){
     event.preventDefault();
     console.log(this.props.sessionID)
-    axios.post('/logOff',{id:this.props.sessionID})
+    axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
+        this.props.fetchSessionID("");
+    })
+  
   }
 }
 
