@@ -15,7 +15,6 @@ class LogInOut extends Component {
 
 
   render() {
- console.log("ID",this.props.sessionID)
     return (
       <div>
       <form>
@@ -23,8 +22,9 @@ class LogInOut extends Component {
         <input type = 'text' className = "form-control" value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>
         <label>Categories</label>               
         <input type = 'text' className = "form-control" value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
-        {this.props.sessionID.length ===0 ?<button type = 'submit' onClick = {this.onButtonClick.bind(this)}>Sign Up!</button>: 
-        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
+        {this.props.sessionID.length ===0 ? <div><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+                                            <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button></div>: 
+                                            <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
       </form>
       
       <a href = '/auth/github'> Try thiis </a>
@@ -38,7 +38,7 @@ class LogInOut extends Component {
     this.setState({password})
   }
 
-  onButtonClick(event){   //Have clicking signup call parent component to show email/password forms
+  onSignUp(event){   //Have clicking signup call parent component to show email/password forms
   	event.preventDefault();
   	axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
       this.props.fetchSessionID(value.data)
@@ -46,6 +46,10 @@ class LogInOut extends Component {
     })
   	//this.props.fetchComment(this.state.term)
   	//this.setState({term:""})
+  }
+  onLogIn(event){
+    event.preventDefault();
+
   }
   onLogOff(event){
     event.preventDefault();
