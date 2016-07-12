@@ -92,7 +92,11 @@ app.post('/review', function(req,res) {
 				})
 			}
 			else{
-				res.send("GOODBYE")
+				knex('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).update({userScore:score}).then(function(updateValue){
+					console.log("updated",updateValue)
+					res.send("updated")
+				})
+
 			}
 		})
 	}
