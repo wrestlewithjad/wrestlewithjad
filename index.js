@@ -56,8 +56,10 @@ app.get('/', function(req, res) {
 
 app.get('/LoggedIn',function(req,res){
 	if(req.isAuthenticated()){
-		console.log("REQ",req)
-		console.log("REQ_USER",req.user)
+		console.log("req.user",req.user)
+	console.log('req.pass',req.session.passport.user)
+		//console.log("REQ",req)
+		//console.log("REQ_USER",req.user)
 		res.send(req.sessionID);
 	}else{
 		res.send(false);
@@ -70,8 +72,57 @@ app.get('/review', function(req,res) {
 	res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
-app.post('/review', function() {
-
+app.post('/review', function(req,res) {
+	//req.user should have the user info.
+	//req.body will have a score property and restaurant property.
+	if(req.isAuthenticated()){
+		//grab the user id so you can deposit review in correct table
+		//send in restaurant and airport id too.
+		var restaurant = req.body.restaurant  //THESE ARE EXPECTING NUMBERS, NOT WORDS
+		var airport = req.body.airport  							//first seeing if the restaurant has been reviewed or not.  Then adding your review
+		var score = req.body.score
+		console.log("req.user",req.user)
+		knex.select().from('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).then(function(value){
+			console.log("is Reviewed",value)
+			var newValue;
+			if(value.length===0){
+				newValue = {user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport,userScore:score, oldScore:null}
+				return knex('userAirportJoin').insert({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport,userScore:score}).return(newValue)
+			}
+			else{
+				newValue = {user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport,userScore:score,oldScore:value[0].userScore}
+				console.log('NEW',newValue)
+				return knex('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).update({userScore:score}).return(newValue)
+			}
+		}).then(function(yourValue){
+			console.log('YOURVALUE',yourValue)
+			//update the review average and the number of reviewers
+			knex('airportRestaurants').select().where({airport_id:airport,restaurant_id:restaurant}).then(function(selected){
+				console.log("SELECTED",selected)
+				if(selected[0].averageReview){
+					var newAverage;
+					if(yourValue.oldScore){
+						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore-yourValue.oldScore)/(selected[0].reviewerTotal)
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).return(res.send({average: newAverage}))
+					}
+					else{
+						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore)/(selected[0].reviewerTotal+1)
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).return(res.send({average: newAverage}))
+					}
+				
+				//res.send('YAHOO')
+				}
+				else{
+					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).return(res.send({average: yourValue.userScore}))
+				}
+			})
+			
+		})
+	}
+	else{
+		res.send(403)	
+	}
+	
 	})
 	//add the review to the restaurant at that airport.
 
@@ -108,6 +159,8 @@ app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	
 })
 app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
+	console.log("req.user",req.user)
+	console.log('req.pass',req.session.passport.user)
 	var username = req.body.username;
 	var password = req.body.password;
 	// findByUserName(username).then(function(value) {

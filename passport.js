@@ -18,8 +18,8 @@ module.exports = function(passport){
   done(null, user);   //this value is stored in req.session.passport.user
 });
 
-passport.deserializeUser(function(id, done) {
-  
+passport.deserializeUser(function(id, done) {  //The reason you don't store entire object in serializeUser is so that if something changes in credentials, you
+  												//pick it up when you deserializeUser on future attempts.
 	console.log("DU",id,done)
 	findUserByID(id).then(function(value){
 		if(value)
