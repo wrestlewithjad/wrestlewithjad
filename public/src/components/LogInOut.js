@@ -95,7 +95,7 @@ class LogInOut extends Component {
     console.log("hea");
      axios.get('/restaurantList',{id:this.props.sessionID}).then(function(value){
        console.log("here",value)
-       axios.post('/review',{airport:1,restaurant:1,score:4}).then(function(reviewValue){
+       axios.post('/review',{airport:1,restaurant:1,score:1}).then(function(reviewValue){
         console.log('RV',reviewValue);
        })
      })

@@ -78,7 +78,7 @@ app.post('/review', function(req,res) {
 	if(req.isAuthenticated()){
 		//grab the user id so you can deposit review in correct table
 		//send in restaurant and airport id too.
-		var restaurant = req.body.restaurant
+		var restaurant = req.body.restaurant  //THESE ARE EXPECTING NUMBERS, NOT WORDS
 		var airport = req.body.airport  							//first seeing if the restaurant has been reviewed or not.  Then adding your review
 		var score = req.body.score
 		console.log("req.user",req.user)
