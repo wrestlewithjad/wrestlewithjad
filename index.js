@@ -100,26 +100,27 @@ app.post('/review', function(req,res) {
 			knex('airportRestaurants').select().where({airport_id:airport,restaurant_id:restaurant}).then(function(selected){
 				console.log("SELECTED",selected)
 				if(selected[0].averageReview){
+					var newAverage;
 					if(yourValue.oldScore){
-						var newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore-yourValue.oldScore)/(selected[0].reviewerTotal)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).return(res.send('TODO'))
+						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore-yourValue.oldScore)/(selected[0].reviewerTotal)
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).return(res.send({average: newAverage}))
 					}
 					else{
-						var newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore)/(selected[0].reviewerTotal+1)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).return(res.send('THIS IS COMPLICATED'))
+						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore)/(selected[0].reviewerTotal+1)
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).return(res.send({average: newAverage}))
 					}
 				
 				//res.send('YAHOO')
 				}
 				else{
-					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).return(res.send('TODO'))
+					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).return(res.send({average: yourValue.userScore}))
 				}
 			})
 			
 		})
 	}
 	else{
-		res.send('OH NO')	
+		res.send(403)	
 	}
 	
 	})
