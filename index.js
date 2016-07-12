@@ -56,8 +56,10 @@ app.get('/', function(req, res) {
 
 app.get('/LoggedIn',function(req,res){
 	if(req.isAuthenticated()){
-		console.log("REQ",req)
-		console.log("REQ_USER",req.user)
+		console.log("req.user",req.user)
+	console.log('req.pass',req.session.passport.user)
+		//console.log("REQ",req)
+		//console.log("REQ_USER",req.user)
 		res.send(req.sessionID);
 	}else{
 		res.send(false);
@@ -70,8 +72,34 @@ app.get('/review', function(req,res) {
 	res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
-app.post('/review', function() {
-
+app.post('/review', function(req,res) {
+	//req.user should have the user info.
+	//req.body will have a score property and restaurant property.
+	if(req.isAuthenticated()){
+		//grab the user id so you can deposit review in correct table
+		//send in restaurant and airport id too.
+		var restaurant = req.body.restaurant
+		var airport = req.body.airport
+		var score = req.body.score
+		console.log("req.user",req.user)
+		knex.select().from('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).then(function(value){
+			//if nothing, add it.  if something, replace it.
+			console.log("is Reviewed",value)
+			if(value.length===0){
+				knex('userAirportJoin').insert({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport,userScore:score}).then(function(insertValue){
+					console.log("not reviewed",insertValue)
+					res.send("Hello")
+				})
+			}
+			else{
+				res.send("GOODBYE")
+			}
+		})
+	}
+	else{
+		res.send('OH NO')	
+	}
+	
 	})
 	//add the review to the restaurant at that airport.
 
@@ -108,6 +136,8 @@ app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	
 })
 app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
+	console.log("req.user",req.user)
+	console.log('req.pass',req.session.passport.user)
 	var username = req.body.username;
 	var password = req.body.password;
 	// findByUserName(username).then(function(value) {

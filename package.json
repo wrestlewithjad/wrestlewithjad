@@ -33,6 +33,7 @@
     "knex-csv-seeder": "^0.4.1",
     "lodash": "^3.10.1",
     "node-uuid": "^1.4.7",
+    "nodemon": "^1.9.2",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "passport-local": "^1.0.0",
