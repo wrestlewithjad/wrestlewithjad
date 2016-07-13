@@ -19,8 +19,8 @@ var knex = require('knex')({
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {
-	//console.log("SU",user,done)
-  done(null, user);   //this value is stored in req.session.passport.user
+	console.log("SU",user.userID,done)
+  done(null, user.userID);   //this value is stored in req.session.passport.user
 });
 
 passport.deserializeUser(function(id, done) {  //The reason you don't store entire object in serializeUser is so that if something changes in credentials, you
@@ -54,7 +54,7 @@ passport.use('local-signup',new LocalStrategy(
 			}
 			addUser(username,password).then(function(value){
 				console.log('UN',username,'PW',password,'HASH',value)
-					return callback(null,value[0])			
+					return callback(null,value)			
 			})
 			
 		
@@ -75,7 +75,7 @@ passport.use('local-login',new LocalStrategy(
 			if(value.length>0){
 				comparePassword(value[0].password,password).then(function(newValue){
 					if(newValue ===true)
-						return callback(null,value[0].userID);
+						return callback(null,value[0]);
 					else
 						return callback(null,false);  
 				}).catch(function(value){
@@ -101,16 +101,16 @@ passport.use(new FacebookStrategy({
 	profileFields : PROFILE_FIELDS
 },function(token,refreshToken,profile,done){
 	process.nextTick(function(){
-		console.log('profile',profile," ",token, " ",refreshToken)
+		//console.log('profile',profile," ",token, " ",refreshToken)
 		//check if in users database
 		knex.select().from('users').where({facebookID:profile.id}).then(function(value){
-			console.log("THIS VALUE",value)
+			//console.log("THIS VALUE",value)
 			if(value.length>0){
 				return done(null,value[0])	//already exists
 			}
 			else{
 				addFacebookUser(profile,token).then(function(userValue){
-				console.log('HASH',userValue)
+				//console.log('HASH',userValue)
 					return done(null,value[0])			
 			})
 
@@ -178,8 +178,7 @@ function addUser(userName, password) {
 				username: userName,
 				password: hashWord
 			}).then(function(value){
-				console.log("what is this",value)
-				return value
+				return {userID:value[0]}
 			})
 		})
 }
