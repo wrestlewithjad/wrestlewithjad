@@ -46,6 +46,8 @@ class LogInOut extends Component {
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
        <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
+       <a href = '/facebookLogin'>facebook! </a>
+       <button type = 'button' onClick = {this.getFacebook.bind(this)}> FacebookLogin </button>
       </div>:null}
       </div>
     );
@@ -100,6 +102,14 @@ class LogInOut extends Component {
        })
      })
   }
+  getFacebook(event){
+    event.preventDefault();
+
+    // axios.get('/facebookLogin',{}).then(function(value){
+    //   console.log(value,"value")
+
+    }
+  
 }
 
 function mapDispatchToProps(dispatch){

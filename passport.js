@@ -1,5 +1,10 @@
 var LocalStrategy   = require('passport-local').Strategy;  //Might want to store session info in Redis store instead of cookies or might need to hash user ID.
-var bcrypt = require('bcrypt-nodejs');						//Need to fix desereializeUser so that it works correctly
+var FacebookStrategy = require('passport-facebook').Strategy;
+var bcrypt = require('bcrypt-nodejs');	
+var FACEBOOK_ID = '1072551932833605'
+var FACEBOOK_SECRET = '617389ad8cc5282079e63445d7c7091b'
+var FACEBOOK_CALLBACK_URL = 'http://localhost:4040/facebookLogin/Callback'	
+var PROFILE_FIELDS = ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']			
 
 
 var knex = require('knex')({
@@ -89,6 +94,56 @@ passport.use('local-login',new LocalStrategy(
 }))
 
 
+passport.use(new FacebookStrategy({
+	clientID: FACEBOOK_ID,
+	clientSecret: FACEBOOK_SECRET,
+	callbackURL : FACEBOOK_CALLBACK_URL,
+	profileFields : PROFILE_FIELDS
+},function(token,refreshToken,profile,done){
+	process.nextTick(function(){
+		console.log('profile',profile," ",token, " ",refreshToken)
+		//check if in users database
+		knex.select().from('users').where({facebookID:profile.id}).then(function(value){
+			console.log("THIS VALUE",value)
+			if(value.length>0){
+				return done(null,value[0])	//already exists
+			}
+			else{
+				addFacebookUser(profile,token).then(function(userValue){
+				console.log('HASH',userValue)
+					return done(null,value[0])			
+			})
+
+				//doesn't exist
+				
+			}
+		})
+
+	})
+
+}))
+
+// passport.use(new GitHubStrategy({
+//     clientID: GITHUB_CLIENT_ID,
+//     clientSecret: GITHUB_CLIENT_SECRET,
+//     callbackURL: "http://localhost:4040/auth/github/callback",
+//     passReqToCallback: true
+//   },
+//   function(req, accessToken, refreshToken, profile, done) {
+//     console.log( "req", Object.keys(req))
+//     console.log( "profile", profile)
+//     // User.gitFindById(profile.id).then(function(value){
+//     //   if(value){
+//     //     console.log("already in database",value)
+//     //   }
+//     //   else{
+//     //     console.log("now it is in database",profile.id)
+//     //     User.gitCreate(profile.id)
+//     //   }
+//     // })
+
+
+
 
 
 }
@@ -127,6 +182,28 @@ function addUser(userName, password) {
 				return value
 			})
 		})
+}
+function addFacebookUser(user,token) {
+	console.log('USER',user, token)
+	//check if user exists.  Via email.  If not, make new, is yes, update existing
+	return knex.select().from('users').where({username:user.emails[0].value}).then(function(existingUser){
+		if(existingUser.length>0){
+			//update user
+			return knex('users').where({username:user.emails[0].value}).update({
+				facebookID:user.id,
+				facebookToken:token,
+				facebookEmail:user.emails[0].value})
+
+		}
+		else{
+			return knex('users').insert({
+				facebookID:user.id,
+				facebookToken:token,
+				facebookEmail:user.emails[0].value
+			})
+			//create new user
+		}
+	})
 }
 var findUserByID = function(ID) {
 	return knex.select().from('users').where({

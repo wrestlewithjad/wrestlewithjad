@@ -33,6 +33,9 @@ var LocalStrategy   = require('passport-local').Strategy;
 //console.log('LS',LocalStrategy)
 var GITHUB_CLIENT_ID = "6b4078dcd8c8aae79a63";
 var GITHUB_CLIENT_SECRET = "7319b8f69f730102c7cc6d7979363ee63f007d44";
+
+
+
 //require('./app/routes.js')(app, passport);
 require('./passport')(passport);
 
@@ -158,6 +161,7 @@ app.post('/signup',passport.authenticate('local-signup'),function(req,res){
 	res.send(req.sessionID)
 	
 })
+
 app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
 	console.log("req.user",req.user)
 	console.log('req.pass',req.session.passport.user)
@@ -177,6 +181,12 @@ app.post('/logOff',function(req,res){
 	req.session.destroy();
 	res.send("logged Out")
 })
+app.get('/facebookLogin',passport.authenticate('facebook', {scope:['email']}));
+app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedirect:'/review',failureRedirect:'/'}))
+
+
+
+
 app.get('/restaurantList',function(req,res){
 	//var city = req.body.city;
 	
