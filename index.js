@@ -120,7 +120,7 @@ app.post('/review', function(req,res) {
 		})
 	}
 	else{
-		res.send(403)	
+		res.sendStatus(403)	
 	}
 	
 	})
@@ -178,18 +178,18 @@ app.post('/logOff',function(req,res){
 	res.send("logged Out")
 })
 app.get('/restaurantList',function(req,res){
-	//var city = req.body.city;
+	var city = req.body.city;
 	
-	var city = "Houston";
+	//var city = "Houston2";
 	var user;
 	if(req.user)
 		user = req.user.userID;
 	else
 		user = "";
 	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
-		//console.log('airportValues',airportValues);
-		//console.log("WOA",airportValues[0]['UNIQUE_ID'])
-
+		if(airportValues.length ==0)
+			res.send(null)
+		else{
 		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
 			if(req.isAuthenticated()){
@@ -203,6 +203,7 @@ app.get('/restaurantList',function(req,res){
 				res.send(value)
 			}
 		})
+	}
 
 
 	 // 	knex.select().from('airportRestaurants').where('airport_id' , airportValues[0]['UNIQUE_ID']).then(function(value){
