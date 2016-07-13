@@ -46,6 +46,7 @@ class LogInOut extends Component {
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
        <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
+       <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
       </div>:null}
       </div>
     );
@@ -100,6 +101,7 @@ class LogInOut extends Component {
        })
      })
   }
+  
 }
 
 function mapDispatchToProps(dispatch){
