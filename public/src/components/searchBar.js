@@ -1,26 +1,40 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import MiddleSplash from './MiddleSplash';
+import RestaurantList from './RestaurantList';
 
 class SearchBar extends Component {
 	constructor(props){
 		super(props)
 
-		this.state = { terms: ''} ;
+		this.state = { 
+			term: '',
+			restaurantInfo: null
+		} ;
 	}
 	render(){
+		var this2 = this;
 		return(
 			<div className = 'search-bar'>
-			<form className='search-bar'>
+			<form className='search-bar' 
+			onSubmit = {function(event){ 
+						event.preventDefault()
+						axios.get('/restaurantList').then(function(value) {
+    					console.log('RESTTTTSARANTS', value)
+    					{this2.onInputChange2(value)};
+    					})
+					}
+					}>
 				<input
 					value = {this.state.term}
 					placeholder = 'SEARCH!'
 					onChange = {event => this.onInputChange(event.target.value)}
-					onSubmit = {event => 
-						event.preventDefault()
-					}/>
-					{console.log(this.state.term)}
+					/>
+					{console.log('from searchbar', this.state.term)}
 
 			</form>
+
+			<MiddleSplash restaurantInfo = {this.state.listInfo}/>
 			</div>
 		);
 	}
@@ -29,16 +43,20 @@ class SearchBar extends Component {
 		this.setState({term});
 	}
 
-	componentDidMount() {
-    	axios.get('/restaurantList').then( value =>{
-    		console.log('restaurantList', value)
-    	})
-    }
+	onInputChange2(listInfo){
+		this.setState({listInfo});
+	}
+
+	// componentDidMount() {
+ //    	axios.get('/restaurantList').then( value =>{
+ //    		console.log('restaurantList', value)
+ //    	})
+ //    }
 }
 
 export default SearchBar;
 
-//take searchterm compare it to our db of airports
-//if valid re-render the page with all our goodies
-//if not throw error or "oops we dont have that one!"
-//use fetch to call the server 
+
+//compare users input to db with airport city
+//if city exists pop up the restaurants
+//if not say "airport coming sooooon"
