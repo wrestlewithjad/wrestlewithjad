@@ -70,9 +70,11 @@ app.get('/LoggedIn',function(req,res){
 	
 })
 
-app.get('/review', function(req,res) {
+app.get('/facebookReturn', function(req,res) {
 	//console.log("authentic",req.isAuthenticated)
-	res.send("he he")
+	//console.log(req)
+	res.sendFile(__dirname + '/public/client/index.html')
+	//res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
 app.post('/review', function(req,res) {
@@ -182,7 +184,7 @@ app.post('/logOff',function(req,res){
 	res.send("logged Out")
 })
 app.get('/facebookLogin',passport.authenticate('facebook', {scope:['email']}));
-app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedirect:'/review',failureRedirect:'/'}))
+app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedirect:'/facebookReturn',failureRedirect:'/'}))
 
 
 
