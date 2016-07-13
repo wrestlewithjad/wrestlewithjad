@@ -34,7 +34,7 @@ class SearchBar extends Component {
 
 			</form>
 
-			<MiddleSplash restaurantInfo = {this.state.listInfo}/>
+			<RestaurantList restaurantInfo = {this.state.listInfo}/>
 			</div>
 		);
 	}
