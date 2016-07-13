@@ -70,7 +70,7 @@ passport.use('local-login',new LocalStrategy(
 	process.nextTick(function(){
 		//email = "hello"
 
-		knex.select().from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+		knex.select().from('users').where({username:username}).orWhere({facebookEmail:username}).then(function(value){ //find a user in table with correct email
 			console.log("userValue",value)
 			if(value.length>0){
 				comparePassword(value[0].password,password).then(function(newValue){
@@ -174,12 +174,26 @@ function comparePassword(passwordHashFromDatabase, attemptedPassword) {
 function addUser(userName, password) {
 	return hashPassword(password)
 		.then(function(hashWord) {
-			return knex('users').insert({
+			return knex.select().from('users').where({facebookEmail:userName}).then(function(value){
+				console.log("WHAT IS THIS",value)
+				if(value.length==0){
+					return knex('users').insert({
 				username: userName,
 				password: hashWord
-			}).then(function(value){
-				return {userID:value[0]}
+				}).then(function(value){
+					return {userID:value[0]}
 			})
+				}
+				else{
+					return knex('users').where({facebookEmail:userName}).update({username:userName,password:hashWord}).then(function(newValue){
+						console.log("updateValue",value)
+						return value
+					})
+
+				}
+			})
+
+			
 		})
 }
 function addFacebookUser(user,token) {
