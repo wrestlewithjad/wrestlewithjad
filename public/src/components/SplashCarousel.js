@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom';
 import Carousel from 'nuka-carousel'
 
 
-
 var SplashCarousel = React.createClass({
   render: function() {
     return (
-      <Carousel dragging={true} autoplay={true} wrapAround={true} decorators={Decorators} >
+      <Carousel className='splashCarousel' dragging={true} autoplay={true} wrapAround={true} decorators={Decorators} >
         <img 
-          src="http://ww3.hdnux.com/photos/42/26/52/9005758/7/920x920.jpg"/>
+          src="http://i2.cdn.turner.com/money/dam/assets/150702112634-oneworld-lax-fireplace-1100x619.jpg"/>
         <img 
-          src="http://www.fly2houstonspaceport.com/images/uploads/main/53057-Two_Color_HA_Logo.jpg"/>
+          src="http://www.trbimg.com/img-51c9f056/turbine/hc-bradley-airport-elevating-bar-food-options-for-travelers-20130625/650/650x366"/>
         <img 
-          src="http://airporttaxitxs.com/wp-content/uploads/2015/12/SAMPLE-21.jpg"/>
-
+          src="http://v028o.popscreen.com/eDdqdDBxMTI=_o_liar-liar-stopping-the-plane.jpg"/>
+        <img
+          src="https://cdn2.vox-cdn.com/thumbor/K9Fc2pd1UAa6BwFcf8azTZT6RIQ=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3717082/deltalaguardia.0.jpg"/>
+        <img
+          src="http://img10.deviantart.net/c827/i/2011/103/2/7/stoat_air_by_semc-d3dvpbf.png"/>
+          
       </Carousel>
     )
   }
@@ -33,7 +36,7 @@ var Decorators = [{
   style: {
     padding: 20,
     flex: 1,
-    resizeMode: 'cover'
+    resizeMode: 'stretch',
   }
 }];
 
