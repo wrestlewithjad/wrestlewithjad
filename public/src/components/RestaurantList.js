@@ -36,6 +36,10 @@ class RestaurantList extends Component {
 		
 		// }
 
+		var style = {
+			listStyleType: 'none'
+		}
+		
 		return(
 
 			<div>
@@ -43,7 +47,7 @@ class RestaurantList extends Component {
 
 			<ul>
 			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
-				return <ul key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </ul>
+				return <li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
 			}):null}
 			</ul>
 
