@@ -37,7 +37,6 @@ class LogInOut extends Component {
       
     return (
       <div>
-      <Reviews loggedIn={this.state.fetchSessionID}/>
 
       {this.state.loaded?<div>
       

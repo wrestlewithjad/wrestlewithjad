@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import LogInOut from './LogInOut'
+import RestaurantList from './RestaurantList'
+
 
 
 class Reviews extends Component {
@@ -11,8 +12,8 @@ class Reviews extends Component {
 
 	render(){
 
+		{console.log('DID THIS WORRRRRRK', this.props.scores)}
 
-		console.log('from reviews', this.props.loggedIn)
 
 		var stars = (
 			<div>
@@ -26,7 +27,7 @@ class Reviews extends Component {
 
 		return(
 			<div>
-				{!this.props.loggedIn 
+				{true 
 					? stars	
 					: null}
 			</div>	
