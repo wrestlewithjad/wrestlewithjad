@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import SplashPage from './SplashPage'
+import SplashCarousel from './SplashCarousel'
+
 
 
 export default class App extends Component {
@@ -7,6 +9,7 @@ export default class App extends Component {
     return (
       <div>This is the App layer
       <SplashPage />
+	  <SplashCarousel />
       </div>
     );
   }
