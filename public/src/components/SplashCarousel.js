@@ -25,10 +25,7 @@ var Decorators = [{
   component: React.createClass({
     render() {
       return (
-        <button
-          onClick={this.props.previousSlide}>
-          Previous Slide
-        </button>
+        <div></div>
       )
     }
   }),
