@@ -24,7 +24,7 @@ export default class EachRestaurant extends Component {
     	width: '125px'
 	}
 
-  	console.log(this.props.restaurant_info)
+  	//console.log(this.props.restaurant_info)
     return (
       <div style={divStyle}>
       	<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/>
