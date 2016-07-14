@@ -3,6 +3,7 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
 import {fetchSessionID} from '../actions/actions';
+import Reviews from './Reviews'
 
 class LogInOut extends Component {
 
@@ -18,6 +19,7 @@ class LogInOut extends Component {
 
 
   }
+      
   componentDidMount(){     //Think about putting the axios in the render function to prevent the split second switch.  Would force a lot of server calls though
     axios.get('/LoggedIn').then(value =>{   
         if(value.data)
@@ -30,9 +32,12 @@ class LogInOut extends Component {
       }
 
 
+
   render() {
+      
     return (
       <div>
+
       {this.state.loaded?<div>
       
       {this.props.sessionID.length ===0 ? <div><form><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
@@ -49,6 +54,7 @@ class LogInOut extends Component {
        <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
       </div>:null}
       </div>
+
     );
   }
   onUserNameChange(userName){
@@ -59,17 +65,17 @@ class LogInOut extends Component {
   }
 
   onSignUp(event){   //Have clicking signup call parent component to show email/password forms
-  	event.preventDefault();
+    event.preventDefault();
     console.log('sign up event')
-  	axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
+    axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
       this.props.fetchSessionID(value.data)
       this.setState({usernameError:false})
-  	}).catch((err)=>{
+    }).catch((err)=>{
       this.setState({usernameError:'Username already taken'})
       console.log("errrrr",err)
     })
-  	//this.props.fetchComment(this.state.term)
-  	//this.setState({term:""})
+    //this.props.fetchComment(this.state.term)
+    //this.setState({term:""})
   }
   onLogIn(event){
     event.preventDefault();
