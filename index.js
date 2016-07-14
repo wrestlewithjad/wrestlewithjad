@@ -190,17 +190,22 @@ app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedir
 
 
 app.get('/restaurantList',function(req,res){
-	var city = req.body.city;
-	
-	//var city = "Houston2";
+	var city = req.query.city;
+	//console.log('city',city)
+
+	//var city = "Houston";
 	var user;
 	if(req.user)
 		user = req.user.userID;
 	else
 		user = "";
+
 	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
-		if(airportValues.length ==0)
+		if(airportValues.length ==0){
+			console.log("HERE")
 			res.send(null)
+		}
+		
 		else{
 		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){

@@ -14,7 +14,7 @@ class MiddleSplash extends Component {
 
 		return(
 			<div>
-			<RestaurantList />
+
 			</div>
 		);
 	} // end render

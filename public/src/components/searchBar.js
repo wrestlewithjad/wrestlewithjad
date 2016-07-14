@@ -1,40 +1,31 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import MiddleSplash from './MiddleSplash';
+import {connect} from 'react-redux'
+import { bindActionCreators} from 'redux';
 import RestaurantList from './RestaurantList';
+import {fetchAirport} from '../actions/actions';
+import {fetchRestaurants} from '../actions/actions';
 
 class SearchBar extends Component {
 	constructor(props){
 		super(props)
 
 		this.state = { 
-			term: '',
-			restaurantInfo: null
+			term: ''
 		} ;
 	}
 	render(){
-		var this2 = this;
 		return(
 			<div className = 'search-bar'>
 			<form className='search-bar' 
-			onSubmit = {function(event){ 
-						event.preventDefault()
-						axios.get('/restaurantList').then(function(value) {
-    					console.log('RESTTTTSARANTS', value)
-    					{this2.onInputChange2(value)};
-    					})
-					}
-					}>
+			onSubmit = {this.onSearch.bind(this)}>
 				<input
 					value = {this.state.term}
 					placeholder = 'SEARCH!'
 					onChange = {event => this.onInputChange(event.target.value)}
 					/>
-					{console.log('from searchbar', this.state.term)}
-
 			</form>
-
-			<RestaurantList restaurantInfo = {this.state.listInfo}/>
 			</div>
 		);
 	}
@@ -43,8 +34,17 @@ class SearchBar extends Component {
 		this.setState({term});
 	}
 
-	onInputChange2(listInfo){
-		this.setState({listInfo});
+
+
+	onSearch(event){
+		event.preventDefault();
+		this.props.fetchAirport(this.state.term)
+			axios.get('/restaurantList',{params:{city: this.state.term}}).then((value)=> {
+				console.log('VALUE',value)
+    			this.props.fetchRestaurants(value)
+    			//console.log("RES",this.state.restaurants)
+    					})
+
 	}
 
 	// componentDidMount() {
@@ -53,8 +53,12 @@ class SearchBar extends Component {
  //    	})
  //    }
 }
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({fetchAirport,fetchRestaurants},dispatch)
+}
 
-export default SearchBar;
+export default connect(null, mapDispatchToProps)(SearchBar)
+//export default SearchBar;
 
 
 //compare users input to db with airport city
