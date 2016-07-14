@@ -13,8 +13,9 @@ class RestaurantList extends Component {
 	}
 	render(){
 		//{this.grabRestaurants(this.props.airportName)}
-		{console.log("BAM",this.props.restaurants)}
+		//{console.log("BAM",this.props.restaurants)}
 		let restList;
+		console.log("PROPS",this.props.filter)
 		// if(this.props.restaurantInfo.data){
 		// 	restList = (
 		// 		this.props.restaurantInfo.data.map(function(rest){
@@ -35,28 +36,51 @@ class RestaurantList extends Component {
 		// 	) // end restList
 		
 		// }
-
+		var style = {listStyleType:'none'}
 		return(
 
 			<div>
-			hellos
-
-			<ul>
+			<ul style = {style}>
 			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
-				return <ul key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </ul>
+				if( !this.props.filter.terminals || this.isTrue(restaurant)){
+				return <li key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
+					}
+				else{
+
+				}
 			}):null}
 			</ul>
 
 			</div>
 			
 		);
+
+
+	}
+		isTrue(restaurant){
+		var isTrue = true;
+
+		if((this.props.filter.terminals!==restaurant.TERMINAL)&&(this.props.filter.terminals!=='Any')){
+			isTrue = false
+		}
+		if((this.props.filter.speed!==restaurant.SPEED)&&(this.props.filter.speed!=='Any')){
+			isTrue = false
+		}
+		if((this.props.filter.price!==restaurant.PRICE)&&(this.props.filter.price!=='Any')){
+			isTrue = false
+		}
+		if((this.props.filter.types!==restaurant.TYPE)&&(this.props.filter.types!=='Any')){
+			isTrue = false
+		}
+		console.log("ISTRUE",isTrue)
+		return isTrue;
 	}
 
 }
 
 
 function mapStateToProps(state){
-  return {airportName : state.airportName, restaurants: state.restaurants}
+  return {airportName : state.airportName, restaurants: state.restaurants,filter:state.filters}
 }
 
 export default connect(mapStateToProps)(RestaurantList)
