@@ -43,7 +43,7 @@ class RestaurantList extends Component {
 
 			<ul>
 			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
-				return <li key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
+				return <ul key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </ul>
 			}):null}
 			</ul>
 
