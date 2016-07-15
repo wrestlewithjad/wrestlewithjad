@@ -11,7 +11,7 @@ export default class EachRestaurant extends Component {
 	}
 
   render() {
-  	console.log("INFO",this.props.restaurant_info)
+  	//console.log("INFO",this.props.restaurant_info)
   	var divStyle = {
   		borderBottom: "1px solid darkgrey",
 	};
