@@ -31,9 +31,10 @@ class RestaurantList extends Component {
 
 
 		if(this.props.restaurants.data){
-			console.log("DATA",this.props.restaurants.data)
+			//console.log("DATA",this.props.restaurants.data)
 			if(this.props.restaurants.data.length > 3){
 				showList = this.props.restaurants.data.map(restaurant=>{
+					//console.log("LINK",restaurant)
 					return (this.isTrue(restaurant)?<li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
 				})
 			} else {

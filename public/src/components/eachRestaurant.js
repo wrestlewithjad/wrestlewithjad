@@ -11,7 +11,7 @@ export default class EachRestaurant extends Component {
 	}
 
   render() {
-
+  	console.log("INFO",this.props.restaurant_info)
   	var divStyle = {
   		borderBottom: "1px solid darkgrey",
 	};
@@ -57,7 +57,7 @@ export default class EachRestaurant extends Component {
       <div className = 'eachRestaurant' style={divStyle}>
      	<div style={revStyle}>{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
      	</div>
-      	<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/> 
+      	{this.props.restaurant_info.LOGO?<img style ={imgStyle} src={this.props.restaurant_info.LOGO}/> :<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/> }
       	<div style={nameStyle}><p><a href = {this.props.restaurant_info.MENU_WEBSITE} target='_blank'>  {this.props.restaurant_info.NAME}</a></p></div>
 		<p>Terminal {this.props.restaurant_info.TERMINAL} ⋅ Near gate(s): {this.props.restaurant_info.NEAR_GATE}</p>
 		<p>Hours: {this.props.restaurant_info.OPEN} - {this.props.restaurant_info.CLOSE}</p>

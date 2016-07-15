@@ -10,6 +10,6 @@ sqlite> .separator ','
 
 sqlite> .import airports.csv airports
 
-sqlite> .import restaurants.csv restaurants
+sqlite> .import WWJ-Restaurants.csv restaurants
 
 sqlite> .import join.csv airportRestaurants
