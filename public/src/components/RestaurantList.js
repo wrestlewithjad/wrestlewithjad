@@ -4,6 +4,8 @@ import MiddleSplash from './MiddleSplash';
 import EachRestaurant from './eachRestaurant';
 import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
+import Reviews from './Reviews';
+
 
 class RestaurantList extends Component {
 	constructor(props){
@@ -36,19 +38,58 @@ class RestaurantList extends Component {
 		// 	) // end restList
 		
 		// }
-		var style = {listStyleType:'none'}
+// <<<<<<< HEAD
+// 		var style = {listStyleType:'none'}
+// 		return(
+
+// 			<div>
+// 			<ul style = {style}>
+// 			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
+// 				if( !this.props.filter.terminals || this.isTrue(restaurant)){
+// 				return <li key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
+// 					}
+// 				else{
+
+// 				}
+// 			}):null}
+// =======
+
+		var style = {
+			listStyleType: 'none'
+		}
+
+		var revStyle = {
+			float: 'right'
+		}
+
+		var showList;
+
+
+
+		if(this.props.restaurants.data){
+			if(this.props.restaurants.data.length > 3){
+				showList = this.props.restaurants.data.map(restaurant=>{
+					return <li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
+				})
+			} else {
+				{console.log('******************', this.props.restaurants.data[1])}
+
+
+				showList = this.props.restaurants.data[0].map(restaurant=>{
+				return <div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /><Reviews /></li>
+						</div>
+			})
+			}
+		}
+		
 		return(
 
 			<div>
-			<ul style = {style}>
-			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
-				if( !this.props.filter.terminals || this.isTrue(restaurant)){
-				return <li key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
-					}
-				else{
+			hellos
 
-				}
-			}):null}
+			<ul>
+			{this.props.restaurants.data ? showList : null}
+//>>>>>>> origin/master
 			</ul>
 
 			</div>
