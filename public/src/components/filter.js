@@ -14,10 +14,20 @@ import {fetchFilter} from '../actions/actions';
 
 	render(){
 		//this.grabTerminals()
-		return(	<div>{this.props.restaurants.data?<form>
+		var restaurantList;
+		if(this.props.restaurants.data){
+			
+			if(Array.isArray(this.props.restaurants.data[0]))
+				restaurantList = this.props.restaurants.data[0];
+			else
+				restaurantList = this.props.restaurants.data;
+		}
+		
+		console.log("RESTAURANTS",this.props.restaurants)
+		return(	<div>{restaurantList?<form>
 			Terminal: <ul>
 			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any'} onChange={this.handleTerminalChange.bind(this)}/>All </li>
-			 {( this.props.restaurants.data.map(restaurant=>{
+			 {( restaurantList.map(restaurant=>{
 				return restaurant.TERMINAL
 				}).filter(function(item,index,array){return array.indexOf(item)===index}).map(terminals =>{
 					return <li className ='filter' key = {terminals}><input type='radio' name = 'terminal' value = {terminals} checked = {this.state.terminals ===terminals} onChange={this.handleTerminalChange.bind(this)}/>{terminals}</li>
@@ -41,7 +51,7 @@ import {fetchFilter} from '../actions/actions';
 			</ul>
 			Type:  <ul>
 			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'} onChange={this.handleTypeChange.bind(this)}/>All</li>
-			 {this.props.restaurants.data.map(restaurant=>{
+			 {restaurantList.map(restaurant=>{
 				return restaurant.TYPE
 				}).filter(function(item,index,array){ 
 				 return array.indexOf(item)===index}).map(types =>{
