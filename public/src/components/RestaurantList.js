@@ -42,7 +42,7 @@ class RestaurantList extends Component {
 
 
 				showList = this.props.restaurants.data[0].map(restaurant=>{
-				return (this.isTrue(restaurant)?<div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /><Reviews /></li>
+				return (this.isTrue(restaurant)?<div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /></li>
 						</div>:null)
 			})
 			}
