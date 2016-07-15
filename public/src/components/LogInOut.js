@@ -14,7 +14,8 @@ class LogInOut extends Component {
                 password:"",
                 loaded:false,
                 usernameError: false,
-                passwordErrod:false
+                passwordErrod:false,
+                showForms:false
                 }  //Might need to turn this into a prop force entire app to load at once.
 
 
@@ -40,18 +41,18 @@ class LogInOut extends Component {
 
       {this.state.loaded?<div>
       
-      {this.props.sessionID.length ===0 ? <div><form><button type = 'submit' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+      {this.props.sessionID.length ===0 ? <div><form><button type = 'button' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
                                             <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button>
-                                         
-        <input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
+                                         <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
+      {this.state.showForms  ? <div><input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
         {this.state.usernameError?<div>{this.state.usernameError}</div> : null}
         <input type = 'text' className = "form-control" placeholder = 'password' value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
-              {this.state.passwordError?<div>{this.state.passwordError}</div> : null}
+              {this.state.passwordError?<div>{this.state.passwordError}</div> :null } </div>:null}
       </form>
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
        <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
-       <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
+       
       </div>:null}
       </div>
 
@@ -66,7 +67,12 @@ class LogInOut extends Component {
 
   onSignUp(event){   //Have clicking signup call parent component to show email/password forms
     event.preventDefault();
-    console.log('sign up event')
+     if(this.state.showForms === false){
+      this.setState({showForms:true})
+    }
+
+    else{
+
     axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
       this.props.fetchSessionID(value.data)
       this.setState({usernameError:false})
@@ -74,11 +80,14 @@ class LogInOut extends Component {
       this.setState({usernameError:'Username already taken'})
       console.log("errrrr",err)
     })
-    //this.props.fetchComment(this.state.term)
-    //this.setState({term:""})
+  }
   }
   onLogIn(event){
     event.preventDefault();
+    if(this.state.showForms === false){
+      this.setState({showForms:true})
+    }
+    else{
     axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
       this.props.fetchSessionID(value.data)
       console.log('log in value',value);
@@ -87,10 +96,11 @@ class LogInOut extends Component {
       this.setState({passwordError:'Username or Password incorrect'})
       console.log("error",err)
     })
-
+  }
   }
   onLogOff(event){
     event.preventDefault();
+    this.setState({showForms:false})
     console.log(this.props.sessionID)
     axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
         this.props.fetchSessionID("");
