@@ -53,9 +53,6 @@ export default class EachRestaurant extends Component {
 		}
 
 
-
-
-
     return (
       <div style={divStyle}>
      	<div style={revStyle}>{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
