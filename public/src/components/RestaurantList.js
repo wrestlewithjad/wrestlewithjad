@@ -18,8 +18,8 @@ class RestaurantList extends Component {
 		let restList;
 		console.log("PROPS",this.props.filter)
 
-		var style = {
-			listStyleType: 'none'
+		var listStyle = {
+			listStyleType: 'none',
 		}
 
 		var revStyle = {
@@ -35,14 +35,14 @@ class RestaurantList extends Component {
 			if(this.props.restaurants.data.length > 3){
 				showList = this.props.restaurants.data.map(restaurant=>{
 					//console.log("LINK",restaurant)
-					return (this.isTrue(restaurant)?<li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
+					return (this.isTrue(restaurant)?<li style={listStyle} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
 				})
 			} else {
 				{console.log('******************', this.props.restaurants.data[1])}
 
 
 				showList = this.props.restaurants.data[0].map(restaurant=>{
-				return (this.isTrue(restaurant)?<div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /></li>
+				return (this.isTrue(restaurant)?<div><li style={listStyle} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /></li>
 						</div>:null)
 			})
 			}
