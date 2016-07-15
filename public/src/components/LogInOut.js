@@ -15,7 +15,9 @@ class LogInOut extends Component {
                 loaded:false,
                 usernameError: false,
                 passwordErrod:false,
-                showForms:false
+                showForms:false,
+                loginClick:'button',
+                signupClick:'button'
                 }  //Might need to turn this into a prop force entire app to load at once.
 
 
@@ -41,8 +43,8 @@ class LogInOut extends Component {
 
       {this.state.loaded?<div>
       
-      {this.props.sessionID.length ===0 ? <div><form><button type = 'button' onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
-                                            <button type = 'submit' onClick = {this.onLogIn.bind(this)}>Log In!</button>
+      {this.props.sessionID.length ===0 ? <div><form><button type = {this.state.signupClick} onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+                                            <button type = {this.state.loginClick} onClick = {this.onLogIn.bind(this)}>Log In!</button>
                                          <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
       {this.state.showForms  ? <div><input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
         {this.state.usernameError?<div>{this.state.usernameError}</div> : null}
@@ -68,7 +70,7 @@ class LogInOut extends Component {
   onSignUp(event){   //Have clicking signup call parent component to show email/password forms
     event.preventDefault();
      if(this.state.showForms === false){
-      this.setState({showForms:true})
+      this.setState({showForms:true,signupClick:'submit'})
     }
 
     else{
@@ -85,7 +87,7 @@ class LogInOut extends Component {
   onLogIn(event){
     event.preventDefault();
     if(this.state.showForms === false){
-      this.setState({showForms:true})
+      this.setState({showForms:true,loginClick:'submit'})
     }
     else{
     axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
@@ -100,7 +102,7 @@ class LogInOut extends Component {
   }
   onLogOff(event){
     event.preventDefault();
-    this.setState({showForms:false})
+    this.setState({showForms:false,loginClick:'button',signupClick:'button'})
     console.log(this.props.sessionID)
     axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
         this.props.fetchSessionID("");
