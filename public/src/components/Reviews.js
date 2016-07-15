@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import RestaurantList from './RestaurantList'
-
+import {connect} from 'react-redux'
+import { bindActionCreators} from 'redux';
+import {fetchRestaurants} from '../actions/actions';
 
 
 class Reviews extends Component {
@@ -18,11 +20,11 @@ class Reviews extends Component {
 		var stars = (
 			<form method ="get">
 				<div>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['1',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['2',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['3',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['4',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['5',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
+					<button className = 'btn' onClick = {this.buttonClick.bind(this)} value = {1} type = 'button'>✦</button>
+					<button className = 'btn' onClick = {this.buttonClick.bind(this)} value = {2} type = 'button'>✦</button>
+					<button className = 'btn' onClick = {this.buttonClick.bind(this)} value = {3} type = 'button'>✦</button>
+					<button className = 'btn' onClick = {this.buttonClick.bind(this)} value = {4} type = 'button'>✦</button>
+					<button className = 'btn' onClick = {this.buttonClick.bind(this)} value = {5} type = 'button'>✦</button>
 				</div>
 			</form>
 		)
@@ -37,19 +39,28 @@ class Reviews extends Component {
 	
 	}
 		buttonClick (event){
-			var y = event.target.value
-			console.log({restaurant: y[2], airport: y[4], score: y[0]})
-			axios.post('/review',{restaurant: y[2], airport: y[4], score: y[0]})
-				.then(function(response){
-					console.log('response', response)
-					console.log('REVIEWED!')
+			var score = event.target.value
+
+
+			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
+				.then((response)=>{
+					this.props.fetchRestaurants(response)
+
 				})
 		}
 		
 }
 
 
-export default Reviews
+//export default Reviews
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({fetchRestaurants},dispatch)
+}
+function mapStateToProps(state){
+  return {restaurants : state.restaurants}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
 
 //resturant id
 //airport id

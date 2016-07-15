@@ -112,17 +112,29 @@ app.post('/review', function(req,res) {
 						console.log("NUMBER MORE")
 						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore)-Number(yourValue.oldScore))/Number((selected[0].reviewerTotal))
 						console.log("AVERAGE",newAverage)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).return(res.send({average: newAverage}))
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).then(function(value){
+							grabRestaurants(airport,req.user.userID,true).then(function(response){
+								res.send(response);
+							});
+						})
 					}
 					else{
 						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore))/Number((selected[0].reviewerTotal)+1)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).return(res.send({average: newAverage}))
+						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).then(function(value){
+							grabRestaurants(airport,req.user.userID,true).then(function(response){
+								res.send(response);
+							});
+						})
 					}
 				
 				//res.send('YAHOO')
 				}
 				else{
-					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).return(res.send({average: yourValue.userScore}))
+					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).then(function(value){
+							grabRestaurants(airport,req.user.userID,true).then(function(response){
+								res.send(response);
+							});
+						})
 				}
 			})
 			
@@ -199,47 +211,81 @@ app.get('/restaurantList',function(req,res){
 
 	//var city = "Houston";
 	var user;
+	var isAuth;
 	if(req.user)
 		user = req.user.userID;
 	else
 		user = "";
+	if(req.isAuthenticated())
+		isAuth ==true;
+	else
+		isAuth ==false;
 
-	knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
+	// knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
+	// 	if(airportValues.length ==0){
+	// 		console.log("HERE")
+	// 		res.send(null)
+	// 	}
+		
+	// 	else{
+	// 	knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
+	// 	.then(function(value){
+	// 		if(req.isAuthenticated()){
+	// 		knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
+	// 			//console.log("THIS IS WORKING",value)
+	// 			var restaurantsAndUserReviews = [value,userValues]
+	// 			res.send(restaurantsAndUserReviews)
+	// 		})
+	// 		}	
+	// 		else{
+	// 			res.send(value)
+	// 		}
+	// 	})
+	// }
+
+
+	// })
+	grabRestaurants(city,user,isAuth).then(function(response){
+		res.send(response);
+	});
+
+	
+
+})
+
+var grabRestaurants = function(city,user,auth){
+	
+console.log("CITY",city)
+console.log("USER",user)
+
+	return knex.select().from('airports').where({'airport_city':city}).orWhere({'unique_id':Number(city)}).then(function(airportValues){
 		if(airportValues.length ==0){
 			console.log("HERE")
-			res.send(null)
+			return null
 		}
 		
 		else{
-		knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
+		return knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
-			if(req.isAuthenticated()){
-			knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
+			if(auth){
+			return knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
 				//console.log("THIS IS WORKING",value)
 				var restaurantsAndUserReviews = [value,userValues]
-				res.send(restaurantsAndUserReviews)
+				return restaurantsAndUserReviews
+				//res.send(restaurantsAndUserReviews)
 			})
 			}	
 			else{
-				res.send(value)
+				return value
+				//res.send(value)
 			}
 		})
 	}
 
 
-	 // 	knex.select().from('airportRestaurants').where('airport_id' , airportValues[0]['UNIQUE_ID']).then(function(value){
-	 // 		console.log('allyourInfo',value)
-	 // 		knex.select().from('restaurants').where('UNIQUE_ID',value[0]) //Want a join table here
-	 // 		res.send(value)
-
-	 // })
-
 	})
-	
 
-})
-
-
+}
 // passport.use(new GitHubStrategy({
 //     clientID: GITHUB_CLIENT_ID,
 //     clientSecret: GITHUB_CLIENT_SECRET,
