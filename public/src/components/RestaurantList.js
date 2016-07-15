@@ -14,45 +14,9 @@ class RestaurantList extends Component {
 		this.state = { restaurants: []} ;
 	}
 	render(){
-		//{this.grabRestaurants(this.props.airportName)}
-		//{console.log("BAM",this.props.restaurants)}
+
 		let restList;
 		console.log("PROPS",this.props.filter)
-		// if(this.props.restaurantInfo.data){
-		// 	restList = (
-		// 		this.props.restaurantInfo.data.map(function(rest){
-		// 			return(
-		// 				<div className = 'each'>
-		// 					<p>{rest.NAME}</p>
-		// 					<p>Terminal: {rest.TERMINAL}</p>
-		// 					<p>Near gate(s): {rest.NEAR_GATE}</p>
-		// 					<p>Hours: {rest.OPEN} - {rest.CLOSE}</p>
-		// 					<p>Type: {rest.TYPE}</p>
-		// 					<p>Speed: {rest.SPEED}</p>
-		// 					<p>Price: {rest.PRICE}</p>
-		// 				</div>
-		// 				)
-					
-		// 			}
-		// 		)				
-		// 	) // end restList
-		
-		// }
-// <<<<<<< HEAD
-// 		var style = {listStyleType:'none'}
-// 		return(
-
-// 			<div>
-// 			<ul style = {style}>
-// 			{this.props.restaurants.data ? this.props.restaurants.data.map(restaurant=>{
-// 				if( !this.props.filter.terminals || this.isTrue(restaurant)){
-// 				return <li key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
-// 					}
-// 				else{
-
-// 				}
-// 			}):null}
-// =======
 
 		var style = {
 			listStyleType: 'none'
@@ -67,29 +31,27 @@ class RestaurantList extends Component {
 
 
 		if(this.props.restaurants.data){
+			console.log("DATA",this.props.restaurants.data)
 			if(this.props.restaurants.data.length > 3){
 				showList = this.props.restaurants.data.map(restaurant=>{
-					return <li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>
+					return (this.isTrue(restaurant)?<li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
 				})
 			} else {
 				{console.log('******************', this.props.restaurants.data[1])}
 
 
 				showList = this.props.restaurants.data[0].map(restaurant=>{
-				return <div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /><Reviews /></li>
-						</div>
+				return (this.isTrue(restaurant)?<div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /><Reviews /></li>
+						</div>:null)
 			})
 			}
 		}
 		
 		return(
 
-			<div>
-			hellos
-
+			<div className = "RestaurantList">
 			<ul>
 			{this.props.restaurants.data ? showList : null}
-//>>>>>>> origin/master
 			</ul>
 
 			</div>
@@ -100,7 +62,8 @@ class RestaurantList extends Component {
 	}
 		isTrue(restaurant){
 		var isTrue = true;
-
+		//console.log("RESTAURANT",restaurant)
+		//console.log('PROPSS',this.props.filter)
 		if((this.props.filter.terminals!==restaurant.TERMINAL)&&(this.props.filter.terminals!=='Any')){
 			isTrue = false
 		}
