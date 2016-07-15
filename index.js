@@ -86,6 +86,7 @@ app.post('/review', function(req,res) {
 		var restaurant = req.body.restaurant  //THESE ARE EXPECTING NUMBERS, NOT WORDS
 		var airport = req.body.airport  							//first seeing if the restaurant has been reviewed or not.  Then adding your review
 		var score = req.body.score
+		console.log("SCORE",score)
 		console.log("req.user",req.user)
 		knex.select().from('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).then(function(value){
 			console.log("is Reviewed",value)
@@ -107,11 +108,14 @@ app.post('/review', function(req,res) {
 				if(selected[0].averageReview){
 					var newAverage;
 					if(yourValue.oldScore){
-						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore-yourValue.oldScore)/(selected[0].reviewerTotal)
+						console.log('NUMBER',Number(selected[0].averageReview)*Number(selected[0].reviewerTotal))
+						console.log("NUMBER MORE")
+						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore)-Number(yourValue.oldScore))/Number((selected[0].reviewerTotal))
+						console.log("AVERAGE",newAverage)
 						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).return(res.send({average: newAverage}))
 					}
 					else{
-						newAverage = (selected[0].averageReview*selected[0].reviewerTotal+yourValue.userScore)/(selected[0].reviewerTotal+1)
+						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore))/Number((selected[0].reviewerTotal)+1)
 						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).return(res.send({average: newAverage}))
 					}
 				
