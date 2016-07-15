@@ -7,7 +7,7 @@ import {fetchFilter} from '../actions/actions';
 	constructor(props){
     super(props)
     this.state={speed: 'Any',terminals:'Any',price:"Any",types:'Any'}
-
+    this.props.fetchFilter(this.state)
     }
     //this.state = {restaurants: this.props.restaurants}
   
@@ -16,36 +16,38 @@ import {fetchFilter} from '../actions/actions';
 		//this.grabTerminals()
 		return(	<div>{this.props.restaurants.data?<form>
 			Terminal: <ul>
-			 <li><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any'} onChange={this.handleTerminalChange.bind(this)}/>Any</li>
+			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any'} onChange={this.handleTerminalChange.bind(this)}/>All </li>
 			 {( this.props.restaurants.data.map(restaurant=>{
 				return restaurant.TERMINAL
 				}).filter(function(item,index,array){return array.indexOf(item)===index}).map(terminals =>{
-					return <li key = {terminals}><input type='radio' name = 'terminal' value = {terminals} checked = {this.state.terminals ===terminals} onChange={this.handleTerminalChange.bind(this)}/>{terminals}</li>
+					return <li className ='filter' key = {terminals}><input type='radio' name = 'terminal' value = {terminals} checked = {this.state.terminals ===terminals} onChange={this.handleTerminalChange.bind(this)}/>{terminals}</li>
 				})
 			)}
 			</ul>
 			Price:
-			<input type='radio' name = 'price' value = '$' checked = {this.state.price ==='$'} onChange={this.handlePriceChange.bind(this)}/>$
-			<input type='radio' name = 'price' value = '$$' checked = {this.state.price ==='$$'} onChange={this.handlePriceChange.bind(this)}/>$$  
-			<input type='radio' name = 'price' value = '$$$' checked = {this.state.price ==='$$$'} onChange={this.handlePriceChange.bind(this)}/>$$$
-			<input type='radio' name = 'price' value = '$$$$' checked = {this.state.price ==='$$$$'} onChange={this.handlePriceChange.bind(this)}/>$$$$  
-			<input type='radio' name = 'price' value = 'Any' checked = {this.state.price ==='Any'} onChange={this.handlePriceChange.bind(this)}/>Any<br/>
+			<ul>
+			<li className ='filter'><input type='radio' name = 'price' value = '$' checked = {this.state.price ==='$'} onChange={this.handlePriceChange.bind(this)}/>$</li>
+			<li className ='filter'><input type='radio' name = 'price' value = '$$' checked = {this.state.price ==='$$'} onChange={this.handlePriceChange.bind(this)}/>$$  </li>
+			<li className ='filter'><input type='radio' name = 'price' value = '$$$' checked = {this.state.price ==='$$$'} onChange={this.handlePriceChange.bind(this)}/>$$$</li>
+			<li className ='filter'><input type='radio' name = 'price' value = '$$$$' checked = {this.state.price ==='$$$$'} onChange={this.handlePriceChange.bind(this)}/>$$$$  </li>
+			<li className ='filter'><input type='radio' name = 'price' value = 'Any' checked = {this.state.price ==='Any'} onChange={this.handlePriceChange.bind(this)}/>All</li>
+			</ul>
 			Speed:
-			<input type='radio' name = 'speed' value = 'grab-go' checked = {this.state.speed ==='grab-go'} onChange={this.handleOptionChange.bind(this)}/>Grab and Go
-			<input type='radio' name = 'speed' value = 'food-court' checked = {this.state.speed ==='food-court'} onChange={this.handleOptionChange.bind(this)}/>Food Court  
-			<input type='radio' name = 'speed' value = 'sit-down' checked = {this.state.speed ==='sit-down'} onChange={this.handleOptionChange.bind(this)}/>Sit Down 
-			<input type='radio' name = 'speed' value = 'Any' checked = {this.state.speed ==='Any'} onChange={this.handleOptionChange.bind(this)}/>Any<br/>
+			<ul>
+			<li className ='filter'><input type='radio' name = 'speed' value = 'To-go' checked = {this.state.speed ==='To-go'} onChange={this.handleOptionChange.bind(this)}/>Grab and Go</li>
+			<li className ='filter'><input type='radio' name = 'speed' value = 'Food court' checked = {this.state.speed ==='Food court'} onChange={this.handleOptionChange.bind(this)}/>Food Court  </li>
+			<li className ='filter'><input type='radio' name = 'speed' value = 'Sit-down' checked = {this.state.speed ==='Sit-down'} onChange={this.handleOptionChange.bind(this)}/>Sit Down </li>
+			<li className ='filter'><input type='radio' name = 'speed' value = 'Any' checked = {this.state.speed ==='Any'} onChange={this.handleOptionChange.bind(this)}/>All</li>
+			</ul>
 			Type:  <ul>
-			 <li><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'} onChange={this.handleTypeChange.bind(this)}/>Any</li>
+			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'} onChange={this.handleTypeChange.bind(this)}/>All</li>
 			 {this.props.restaurants.data.map(restaurant=>{
 				return restaurant.TYPE
 				}).filter(function(item,index,array){ 
 				 return array.indexOf(item)===index}).map(types =>{
-					return <li key = {types}><input type='radio' name = 'type' value = {types} checked = {this.state.types ===types} onChange={this.handleTypeChange.bind(this)}/>{types}</li>
+					return <li className ='filter' key = {types}><input type='radio' name = 'type' value = {types} checked = {this.state.types ===types} onChange={this.handleTypeChange.bind(this)}/>{types}</li>
 				})}
 			</ul>
-
-			<button type = 'submit' onClick= {this.grabFilters.bind(this)}>Filter </button>
 			</form>: null}
 			</div>
 			)

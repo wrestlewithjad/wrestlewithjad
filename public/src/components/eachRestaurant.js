@@ -54,7 +54,7 @@ export default class EachRestaurant extends Component {
 
 
     return (
-      <div style={divStyle}>
+      <div className = 'eachRestaurant' style={divStyle}>
      	<div style={revStyle}>{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
      	</div>
       	<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/> 

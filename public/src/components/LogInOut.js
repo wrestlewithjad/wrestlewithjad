@@ -36,7 +36,7 @@ class LogInOut extends Component {
   render() {
       
     return (
-      <div>
+      <div className = 'LogBox'>
 
       {this.state.loaded?<div>
       
