@@ -7,7 +7,7 @@ import SplashCarousel from './SplashCarousel'
 export default class App extends Component {
   render() {
     return (
-      <div>This is the App layer
+      <div className="fixthisshit">
       <SplashPage />
 	  <SplashCarousel />
       </div>
