@@ -1,28 +1,33 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import RestaurantList from './RestaurantList'
-
+import {connect} from 'react-redux'
+import { bindActionCreators} from 'redux';
+import {fetchRestaurants} from '../actions/actions';
 
 
 class Reviews extends Component {
 	constructor(props){
 		super(props)
+		this.state={
+			numGreen:this.props.restaurant_info.userScore
+		}
 
 	}
 
 	render(){
-
-		{console.log('DID THIS WORRRRRRK DID IT??', this.props.restaurant_info)}
+		console.log('props',this.props.restaurant_info)
+		//{console.log('DID THIS WORRRRRRK DID IT??', this.props.restaurant_info)}
 
 
 		var stars = (
 			<form method ="get">
 				<div>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['1',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['2',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['3',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['4',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
-					<button className = 'btn' onClick = {this.buttonClick} value = {['5',this.props.restaurant_info.restaurant_id, this.props.restaurant_info.airport_id]} type = 'button'>✦</button>
+					<button className = {this.state.numGreen > 0?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {1} type = 'button'>✦</button>
+					<button className = {this.state.numGreen > 1?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {2} type = 'button'>✦</button>
+					<button className = {this.state.numGreen > 2?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {3} type = 'button'>✦</button>
+					<button className = {this.state.numGreen > 3?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {4} type = 'button'>✦</button>
+					<button className = {this.state.numGreen > 4?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {5} type = 'button'>✦</button>
 				</div>
 			</form>
 		)
@@ -37,19 +42,52 @@ class Reviews extends Component {
 	
 	}
 		buttonClick (event){
-			var y = event.target.value
-			console.log({restaurant: y[2], airport: y[4], score: y[0]})
-			axios.post('/review',{restaurant: y[2], airport: y[4], score: y[0]})
-				.then(function(response){
-					console.log('response', response)
-					console.log('REVIEWED!')
+			var score = event.target.value
+			this.setState({numGreen:score})
+			console.log(this.props.restaurants)
+			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
+				.then((response)=>{
+					console.log("INGO",this.props.restaurant_info)
+
+					axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
+				.then((response)=>{
+					this.props.fetchRestaurants(response)
 				})
+
+			
+
+					//look through this.props.restaurants until you find the one that 
+
+
+
+				})
+		}
+		makeGreen(score){
+			for(var i=1;i<=score;i++){
+				var greenButton = 'button'+i
+				this.setState({[greenButton]:'btn btn-success'})
+				//console.log("heer",this.state.button1)
+			}
+			console.log("SCORE",score)
+			for(var j = Number(score)+1 ;j<=5; j++){
+				var greenButton = 'button'+j
+				console.log("gb",greenButton)
+				this.setState({[greenButton]:'btn'})
+			}
 		}
 		
 }
 
 
-export default Reviews
+//export default Reviews
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({fetchRestaurants},dispatch)
+}
+function mapStateToProps(state){
+  return {restaurants : state.restaurants}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
 
 //resturant id
 //airport id
