@@ -159,6 +159,7 @@ var findByUserName = function(myName) {
 
 
 app.post('/signup',passport.authenticate('local-signup'),function(req,res){
+	console.log("HERE I AM")
 	//console.log('req',req.session.passport.user)
 	//console.log('res',req)
 	//insert sessionID into database
