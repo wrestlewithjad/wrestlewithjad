@@ -105,6 +105,7 @@ class LogInOut extends Component {
     console.log(this.props.sessionID)
     axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
         this.props.fetchSessionID("");
+        this.setState({userName:"",password:""})
     })
   
   }
