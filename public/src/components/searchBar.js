@@ -21,7 +21,7 @@ class SearchBar extends Component {
 			<form className='search-bar' 
 			onSubmit = {this.onSearch.bind(this)}>
 				<input
-					value = {this.state.term}
+					value = {this.state.term.toLowerCase()}
 					placeholder = 'SEARCH!'
 					onChange = {event => this.onInputChange(event.target.value)}
 					/>
@@ -42,6 +42,7 @@ class SearchBar extends Component {
 			axios.get('/restaurantList',{params:{city: this.state.term}}).then((value)=> {
 				console.log('VALUE',value)
     			this.props.fetchRestaurants(value)
+    			this.setState({term:""})
     			//console.log("RES",this.state.restaurants)
     					})
 
