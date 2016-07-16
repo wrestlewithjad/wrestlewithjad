@@ -8,22 +8,28 @@ module.exports = {
       filename: './airports.sqlite3'
     }
   },
-
-  // staging: {
+  // development: {
   //   client: 'postgresql',
   //   connection: {
-  //     database: 'my_db',
-  //     user:     'username',
-  //     password: 'password'
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10
-  //   },
-  //   migrations: {
-  //     tableName: 'knex_migrations'
+  //     database: 'TerminalHunger'
   //   }
   // },
+
+  staging: {
+    client: 'postgresql',
+    connection: {
+      database: 'TerminalHunger',
+      user:     'postgres',
+      password: 'j102106c'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
 
   // production: {
   //   client: 'postgresql',

@@ -5,17 +5,11 @@ var FACEBOOK_ID = '1072551932833605'
 var FACEBOOK_SECRET = '617389ad8cc5282079e63445d7c7091b'
 var FACEBOOK_CALLBACK_URL = 'http://localhost:4040/facebookLogin/Callback'	
 var PROFILE_FIELDS = ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']			
+var moreConfig = require('./knexfile.js')
+var env = 'staging'
+var knex = require('knex')(moreConfig[env])
 
 
-var knex = require('knex')({
-	client: 'sqlite3',
-	connection: {
-		filename: './airports.sqlite3'
-	},
-	migrations: {
-		tableName: 'airports'
-	}
-});
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {

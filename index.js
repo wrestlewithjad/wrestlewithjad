@@ -16,16 +16,10 @@ app.use(bodyParser.json());
 const compiler = webpack(config);
 app.use(express.static(__dirname + '/public'));
 app.use(webpackMiddleware(compiler));
-var knex = require('knex')({
-	client: 'sqlite3',
-	connection: {
-		filename: './airports.sqlite3'
-	},
-	migrations: {
-		tableName: 'airports'
-	}
-});
-
+var moreConfig = require('./knexfile.js')
+var env = 'staging'
+var knex = require('knex')(moreConfig[env])
+knex.migrate.latest([moreConfig]);
 var passport = require('passport');
 //var GitHubStrategy = require('passport-github2').Strategy;
 var session = require('express-session');
@@ -247,14 +241,14 @@ app.get('/restaurantList',function(req,res){
 
 var grabRestaurants = function(city,user,auth){
 
-
-	return knex.select().from('airports').where({'airport_city':city}).orWhere({'unique_id':Number(city)}).then(function(airportValues){
+	console.log("CITY",city, "HERE",Number(city))
+	return knex.select().from('airports').where({'AIRPORT_CITY':city}).then(function(airportValues){
 		if(airportValues.length ==0){
 			console.log("HERE I AM")
 			return null
 		}
-		
 		else{
+			console.log("input Syntax")
 		return knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
 			if(auth){

@@ -1,4 +1,3 @@
-UNIQUE_ID,TERMINAL,NEAR_GATE,NAME,TIMES,OPEN,CLOSE,TYPE,PRICE,B,V,GF,SPEED,LOGO,MENU_WEBSITE
 1,A,A12,Belgian Beer Café,Daily,6:00 AM,8:00 PM,Kiosk,$,NO,,,To-go,link,http://www.belgianbeercafe.us/
 2,A,A1 - A15,Blaze Pizza,Daily,6:00 AM,10:00 PM,Pizza/Italian,$,NO,YES,YES,Food court,link,http://www.blazepizza.com/menu/
 3,A,A17 - A30,Brookwood Farms,Daily,6:00 AM,9:00 PM,BBQ/Southern,$$,NO,,,Food court,link,http://brookwoodfarms.com/index.php/products/
@@ -53,7 +52,7 @@ UNIQUE_ID,TERMINAL,NEAR_GATE,NAME,TIMES,OPEN,CLOSE,TYPE,PRICE,B,V,GF,SPEED,LOGO,
 52,D,D6,Peet's Coffee & Tea,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.peets.com/stores.html
 53,D,D9,Re+Barᴺᵒ9,Daily,9:30 AM,7:30 PM,American,$$,YES,,,Sit-down,,
 54,D,Pre-security,Starbucks,Daily,6:00 AM,10:00 PM,Coffee/Breakfast,$,,YES,,To-go,link,http://www.starbucks.com/
-55,E,E12,Auntie Anne's / Nestle Toll House Café,Daily,6:30 AM,9:30 PM,Munchies/Treats,$,,YES,,To-go,link,"https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwj694rIseLNAhUr8IMKHTZzBE4QjBAIKDAC&url=http%3A%2F%2Fwww.auntieannes.com%2Fpretzels-nutrition&usg=AFQjCNEXY_A0RbelMabOguib7M4MwCB-lw&sig2=s3s7ZmetO4GH7cYZ0pH2Tw&bvm=bv.126130881,d.amc"
+55,E,E12,Auntie Anne's / Nestle Toll House Café,Daily,6:30 AM,9:30 PM,Munchies/Treats,$,,YES,,To-go,link,"http://www.auntieannes.com/pretzels-nutrition"
 56,E,E10,Cat Cora's Kitchen,Daily,6:30 AM,10:00 PM,BBQ/Southern,$$$,,YES,,Sit-down,link,http://catcora.com/restaurants/
 57,E,E12,Cinnabon,Daily,6:30 AM,9:30 PM,Munchies/Treats,$,,,,To-go,link,http://www.cinnabon.com/bakery-treats
 58,E,E11,Dunkin' Donuts,Daily,5:00 AM,10:00 PM,Coffee/Breakfast,$,,,,To-go,link,http://www.dunkindonuts.com/dunkindonuts/en/menu.html
