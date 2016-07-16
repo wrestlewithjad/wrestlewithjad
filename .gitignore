@@ -4,7 +4,7 @@
 azure.err
 iisnode.yml
 node_modules
-airports.csv
+airports.sqlite3
 
 # Icon must ends with two \r.
 Icon
