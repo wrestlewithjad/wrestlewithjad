@@ -4,11 +4,6 @@ body
 	padding: 0;
 }
 
-.fixthisshit {
-	margin:0;
-	padding:0;
-}
-
 .slider.splashCarousel {
     position:absolute;
     top:0;
@@ -17,21 +12,6 @@ body
     right:0;
     overflow:hidden;
 
-}
-
-.slider-slide {
-    position:absolute; 
-    border:1px solid #0f0;
-    height:500px;
-
-}
-
-img {
-    width: 100%;
-    height: auto;
-    opacity: 0.9;
-    background-size: 100%;
-    background-size:cover;
 }
 
 .LogBox {
@@ -56,12 +36,11 @@ img {
 	z-index:10;
 
 }
+
 .search-bar > input {
 	display:inline-block;
 	width:20200%;
 }
-
-
 
 li.filter {
     display: inline;
@@ -78,11 +57,8 @@ li.filter {
 	background-color:black;
 	color:pink;
 	font-size:28px;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
 	width:100%;
 	text-align:center;
-
 }
 
 .container {
