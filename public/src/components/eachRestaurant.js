@@ -17,7 +17,13 @@ export default class EachRestaurant extends Component {
 
   	var divStyle = {
   		borderBottom: "1px solid darkgrey",
+  		width: '70%',
+  		height: '126px',
 	};
+
+	var pstyle = {
+		lineHeight: '50%'
+	}
 
 	var nameStyle = {
   		color: 'blue',
@@ -37,6 +43,9 @@ export default class EachRestaurant extends Component {
 
 	var health = {
 		color: 'green',
+	}
+
+	var tags = {
 		float: 'right'
 	}
 
@@ -63,9 +72,9 @@ export default class EachRestaurant extends Component {
      	</div>
       	{this.props.restaurant_info.LOGO?<img style ={imgStyle} src={this.props.restaurant_info.LOGO}/> :<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/> }
       	<div style={nameStyle}><p><a href = {this.props.restaurant_info.MENU_WEBSITE} target='_blank'>  {this.props.restaurant_info.NAME}</a></p></div>
-		<p>Terminal {this.props.restaurant_info.TERMINAL} ⋅ Near gate(s): {this.props.restaurant_info.NEAR_GATE}</p>
+		<div style={pstyle}><p>Terminal {this.props.restaurant_info.TERMINAL} ⋅ Near gate(s): {this.props.restaurant_info.NEAR_GATE}</p>
 		<p>Hours: {this.props.restaurant_info.OPEN} - {this.props.restaurant_info.CLOSE}</p>
-		<p>{this.props.restaurant_info.PRICE} ⋅ {this.props.restaurant_info.TYPE} ⋅ {this.props.restaurant_info.SPEED} <span style={health}>{ this.props.restaurant_info.GF ? ' 🌱GF  ' : null} { this.props.restaurant_info.Vegetarian ? ' 🌱Vegetarian  ' : null}</span></p>
+		<p>{this.props.restaurant_info.PRICE} ⋅ {this.props.restaurant_info.TYPE} ⋅ {this.props.restaurant_info.SPEED} <span style={tags}>{ this.props.restaurant_info.Alcohol === "YES" ? ' 🍸Alcohol ' : null}<span style={health}>{ this.props.restaurant_info.GF ? ' 🌱GF  ' : null} { this.props.restaurant_info.Vegetarian ? ' 🌱Vegetarian  ' : null}</span></span></p></div>
 	  </div>
 
     );
