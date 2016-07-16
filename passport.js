@@ -19,13 +19,13 @@ var knex = require('knex')({
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {
-	console.log("SU",user.userID,done)
+	//console.log("SU",user.userID,done)
   done(null, user.userID);   //this value is stored in req.session.passport.user
 });
 
 passport.deserializeUser(function(id, done) {  //The reason you don't store entire object in serializeUser is so that if something changes in credentials, you
   												//pick it up when you deserializeUser on future attempts.
-	console.log("DU",id,done)
+	//console.log("DU",id,done)
 	findUserByID(id).then(function(value){
 		if(value)
 			done(null, value);
@@ -53,7 +53,7 @@ passport.use('local-signup',new LocalStrategy(
 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
 			}
 			addUser(username,password).then(function(value){
-				console.log('UN',username,'PW',password,'HASH',value)
+				//console.log('UN',username,'PW',password,'HASH',value)
 					return callback(null,value)			
 			})
 			
@@ -71,7 +71,7 @@ passport.use('local-login',new LocalStrategy(
 		//email = "hello"
 
 		knex.select().from('users').where({username:username}).orWhere({facebookEmail:username}).then(function(value){ //find a user in table with correct email
-			console.log("userValue",value)
+			//console.log("userValue",value)
 			if(value.length>0){
 				comparePassword(value[0].password,password).then(function(newValue){
 					if(newValue ===true)

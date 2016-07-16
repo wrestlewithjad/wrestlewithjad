@@ -27,21 +27,21 @@ class RestaurantList extends Component {
 		}
 
 		var showList;
-
+		var yourReviews;
 
 
 		if(this.props.restaurants.data){
 			//console.log("DATA",this.props.restaurants.data)
 			if(this.props.restaurants.data.length > 3){
 				showList = this.props.restaurants.data.map(restaurant=>{
-					//console.log("LINK",restaurant)
-					return (this.isTrue(restaurant)?<li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
+					console.log("LINK",restaurant)
+					return (this.isTrue(restaurant)?<li style={style}><EachRestaurant restaurant_info = {restaurant} /> </li>:null)
 				})
 			} else {
-				{console.log('******************', this.props.restaurants.data[1])}
-
+				{console.log('******************', this.props.restaurants.data)}
 
 				showList = this.props.restaurants.data[0].map(restaurant=>{
+
 				return (this.isTrue(restaurant)?<div><li style={style} key = {restaurant.restaurant_id}><EachRestaurant restaurant_info = {restaurant} /></li>
 						</div>:null)
 			})

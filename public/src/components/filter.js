@@ -17,9 +17,9 @@ import {fetchFilter} from '../actions/actions';
 		var restaurantList;
 		if(this.props.restaurants.data){
 			
-			if(Array.isArray(this.props.restaurants.data[0]))
-				restaurantList = this.props.restaurants.data[0];
-			else
+			// if(Array.isArray(this.props.restaurants.data[0]))
+			// 	restaurantList = this.props.restaurants.data[0];
+			// else
 				restaurantList = this.props.restaurants.data;
 		}
 		
