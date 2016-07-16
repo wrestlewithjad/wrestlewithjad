@@ -53,7 +53,6 @@ class LogInOut extends Component {
       </form>
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
-       <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
        
       </div>:null}
       </div>
