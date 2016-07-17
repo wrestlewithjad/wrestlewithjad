@@ -16,21 +16,6 @@ import {fetchFilter} from '../actions/actions';
 		//this.grabTerminals()
 
 
-		var map;
-		if( this.state.terminals === 'A') {
-			map = 'https://s32.postimg.org/4x7yp1gxh/iah_terminal_a_360_wl.png'
-		} else if ( this.state.terminals === 'B') {
-			map = 'https://s31.postimg.org/8ocobu87v/iah_terminal_b_360_wl.png'
-		} else if ( this.state.terminals === 'C') {
-			map = 'https://s31.postimg.org/f3c5s2bcr/iah_terminal_c_360_wl.png'
-		} else if ( this.state.terminals === 'D') {
-			map = 'https://s32.postimg.org/v6wvh93vp/iah_terminal_d_360_wl.png'
-		} else if (this.state.terminals === 'E') {
-			map = 'https://s31.postimg.org/y2iazclwb/iah_terminal_e_360_wl.png'
-		} else {
-			map = 'https://s32.postimg.org/jhxypmr3p/iah_airport_360_wl.png'
-		}
-
 		var fixed = {
    			
    			lineHeight: '50%'
@@ -42,9 +27,6 @@ import {fetchFilter} from '../actions/actions';
 			fontSize: '90%'
 		}
 
-		var imageSize = {
-			width: '300px',
-		}
 
 
 		var restaurantList;
@@ -94,7 +76,7 @@ import {fetchFilter} from '../actions/actions';
 				})}
 				<br/><br/><br/>	
 			</div>
-			<div><img style={imageSize} src={this.state.maps || this.props.restaurants.data[1][0].map} /></div>
+			<div><img className = 'mapImage' src={this.state.maps || this.props.restaurants.data[1][0].map} /></div>
 			</form>: null}
 
 			</div>
