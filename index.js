@@ -92,14 +92,18 @@ app.post('/review', function(req,res) {
 				return knex('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).update({userScore:score}).return(newValue)
 			}
 		}).then(function(yourValue){
+			console.log("YOURVALUE",yourValue)
 			//update the review average and the number of reviewers
 			knex('airportRestaurants').select().where({airport_id:airport,restaurant_id:restaurant}).then(function(selected){
 				if(selected[0].averageReview){
 					var newAverage;
+					console.log("SELECTED",selected)
 					if(yourValue.oldScore){
 						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore)-Number(yourValue.oldScore))/Number((selected[0].reviewerTotal))
+						console.log('NEWAVG',newAverage)
 						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).then(function(value){
 							grabRestaurants(airport,req.user.userID,true).then(function(response){
+								console.log("RESPONSE",response)
 								res.send(response);
 							});
 						})
