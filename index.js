@@ -169,26 +169,32 @@ var findByUserName = function(myName) {
 
 
 app.post('/signup',passport.authenticate('local-signup'),function(req,res){
-	console.log("HERE I AM")
-	//console.log('req',req.session.passport.user)
-	//console.log('res',req)
-	//insert sessionID into database
-	res.send(req.sessionID)
+	if(req.body.city.length>0){
+		grabRestaurants(req.body.city).then(function(response){
+			res.send({sessionID:req.sessionID,yourReviews:response})
+		})
+		
+	}
+	else{
+		res.send({sessionID:req.sessionID})
+	}
 	
 })
 
 app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
-	//console.log("req.user",req.user)
-	//console.log('req.pass',req.session.passport.user)
+
 	var username = req.body.username;
 	var password = req.body.password;
-	// findByUserName(username).then(function(value) {
-	// 		checkPassword(password, value.password)
-	// 			//check password
-	// 	})
-		//find by username in the username table.
-		res.send(req.sessionID)
+
+	if(req.body.city.length>0){
+ 		grabRestaurants(req.body.city,req.user.userID,true).then(function(response){
+ 			res.send({sessionID:req.sessionID,yourReviews:response})
+ 		})
+	}else{
+	res.send({sessionID:req.sessionID})
+	}
 	//check if user credentials are good
+
 })
 app.post('/logOff',function(req,res){
 	//console.log()
@@ -204,9 +210,6 @@ app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedir
 
 app.get('/restaurantList',function(req,res){
 	var city = req.query.city;
-	//console.log('city',city)
-
-	//var city = "Houston";
 	var user;
 	var isAuth;
 	if(req.user)
@@ -218,30 +221,7 @@ app.get('/restaurantList',function(req,res){
 	else
 		isAuth =false;
 	console.log("isAuth",isAuth)
-	// knex.select().from('airports').where({'airport_city':city}).then(function(airportValues){
-	// 	if(airportValues.length ==0){
-	// 		console.log("HERE")
-	// 		res.send(null)
-	// 	}
-		
-	// 	else{
-	// 	knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
-	// 	.then(function(value){
-	// 		if(req.isAuthenticated()){
-	// 		knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
-	// 			//console.log("THIS IS WORKING",value)
-	// 			var restaurantsAndUserReviews = [value,userValues]
-	// 			res.send(restaurantsAndUserReviews)
-	// 		})
-	// 		}	
-	// 		else{
-	// 			res.send(value)
-	// 		}
-	// 	})
-	// }
 
-
-	// })
 	grabRestaurants(city,user,isAuth).then(function(response){
 		res.send(response);
 	});
@@ -259,7 +239,9 @@ var grabRestaurants = function(city,user,auth){
 			return null
 		}
 		else{
-			console.log("input Syntax")
+			//console.log("APV",airportValues[0].)
+	return knex.select().from('maps').where({airport_id:airportValues[0].UNIQUE_ID}).then(function(maps){
+		console.log("MAPS",maps)
 		return knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
 		.then(function(value){
 			if(auth){
@@ -278,83 +260,22 @@ var grabRestaurants = function(city,user,auth){
 						}
 					}
 				}
-				//console.log("VALUE",value)
-				return value
-				var restaurantsAndUserReviews = [value,userValues]
-				var resAndRev = value.concat(userValues)
-				return resAndRev
-				return restaurantsAndUserReviews
-				//res.send(restaurantsAndUserReviews)
+				return [value,maps]
+
 			})
 			}	
 			else{
-				return value
+				return [value,maps]
 				//res.send(value)
 			}
 		})
+	})
 	}
 
 
 	})
 
 }
-// passport.use(new GitHubStrategy({
-//     clientID: GITHUB_CLIENT_ID,
-//     clientSecret: GITHUB_CLIENT_SECRET,
-//     callbackURL: "http://localhost:4040/auth/github/callback",
-//     passReqToCallback: true
-//   },
-//   function(req, accessToken, refreshToken, profile, done) {
-//     console.log( "req", Object.keys(req))
-//     console.log( "profile", profile)
-//     // User.gitFindById(profile.id).then(function(value){
-//     //   if(value){
-//     //     console.log("already in database",value)
-//     //   }
-//     //   else{
-//     //     console.log("now it is in database",profile.id)
-//     //     User.gitCreate(profile.id)
-//     //   }
-//     // })
-
-
-//     // asynchronous verification, for effect...
-//     process.nextTick(function () {
-
-//       //look up more user info (likes, etc) via database
-//       //
-
-
-
-//       // To keep the example simple, the user's GitHub profile is returned to
-//       // represent the logged-in user.  In a typical application, you would want
-//       // to associate the GitHub account with a user record in your database,
-//       // and return that user instead.
-//       return done(null, profile);
-//     });
-//   }
-// ));
-//app.options('/auth/github', cors());
-// app.get('/auth/github',
-//   passport.authenticate('github', { scope: [ 'user:email' ] }),
-//   function(req, res){
-//     // The request will be redirected to GitHub for authentication, so this
-//     // function will not be called.
-//   });
-
-// // GET /auth/github/callback
-// //   Use passport.authenticate() as route middleware to authenticate the
-// //   request.  If authentication fails, the user will be redirected back to the
-// //   login page.  Otherwise, the primary route function will be called,
-// //   which, in this example, will redirect the user to the home page.
-// app.get('/auth/github/callback',
-//   passport.authenticate('github', { failureRedirect: '/review' }),
-//   function(req, res) {
-//     console.log("auth",req.isAuthenticated())
-
-//     res.send('hey now!')
-//   });
-
 
 
 

@@ -20,8 +20,9 @@ class Reviews extends Component {
 		//{console.log('DID THIS WORRRRRRK DID IT??', this.props.restaurant_info)}
 
 
-		var stars = (
-			<form method ="get">
+		return(
+			<div>
+				<form>
 				<div>
 					<button className = {this.state.numGreen > 0?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {1} type = 'button'>✦</button>
 					<button className = {this.state.numGreen > 1?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {2} type = 'button'>✦</button>
@@ -30,13 +31,6 @@ class Reviews extends Component {
 					<button className = {this.state.numGreen > 4?'btn btn-success':'btn'} onClick = {this.buttonClick.bind(this)} value = {5} type = 'button'>✦</button>
 				</div>
 			</form>
-		)
-
-		return(
-			<div>
-				{true 
-					? stars	
-					: null}
 			</div>	
 		);
 	
@@ -47,18 +41,7 @@ class Reviews extends Component {
 			console.log(this.props.restaurants)
 			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score, airportName: this.props.airportName})
 				.then((response)=>{
-					// console.log("RESPONSE",response);
-					// console.log("INGO",this.props.restaurant_info)
-					// var newRestaurantInfo = {};
-					// for(var key in this.props.restaurant_info){
-					// 	newRestaurantInfo[key]=this.props.restaurant_info[key]
-					// }
-					//newRestaurantInfo[response]
-					//this.props.fetchRestaurants()
-				// 	axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
-				// .then((response)=>{
 				 	this.props.fetchRestaurants(response)
-				// })
 
 				})
 		}
@@ -88,12 +71,3 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
-
-//resturant id
-//airport id
-//score
-
-//things need to do.
-//click the button and retrieve that restaurants data. 
-//depending on what button it is send a value of 1-5
-//post request to /review. 

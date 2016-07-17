@@ -12,13 +12,14 @@ class SearchBar extends Component {
 		super(props)
 
 		this.state = { 
-			term: ''
+			term: '',
+			searchBar: 'search-bar'
 		} ;
 	}
 	render(){
 		return(
-			<div className = 'search-bar'>
-			<form className='search-bar' 
+			<div className = {this.state.searchBar}>
+			<form className={this.state.searchBar}
 			onSubmit = {this.onSearch.bind(this)}>
 				<input
 					value = {this.state.term.toLowerCase()}
@@ -43,6 +44,10 @@ class SearchBar extends Component {
 				console.log('VALUE',value)
     			this.props.fetchRestaurants(value)
     			this.setState({term:""})
+    			if(value.data){
+    				console.log("hereee")
+    				this.setState({searchBar:'search-bar-2'})
+    			}
     			//console.log("RES",this.state.restaurants)
     					})
 
@@ -57,6 +62,7 @@ class SearchBar extends Component {
 function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchAirport,fetchRestaurants},dispatch)
 }
+
 
 export default connect(null, mapDispatchToProps)(SearchBar)
 //export default SearchBar;

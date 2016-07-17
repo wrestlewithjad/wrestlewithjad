@@ -68,7 +68,7 @@ class EachRestaurant extends Component {
 
 
     return (
-      <div className = 'eachRestaurant' style={divStyle}>
+      <div className = 'eachRestaurant'>
      	<div style={revStyle}>{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
 		{this.props.sessionID?<Reviews restaurant_info = {eachRest} />:null}
      	</div>
