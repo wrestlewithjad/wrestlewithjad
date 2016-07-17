@@ -6,7 +6,7 @@ import {fetchFilter} from '../actions/actions';
  class Filter extends Component{
 	constructor(props){
     super(props)
-    this.state={speed: 'Any',terminals:'Any',price:"Any",types:'Any'}
+    this.state={speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false}
     this.props.fetchFilter(this.state)
     }
     //this.state = {restaurants: this.props.restaurants}
@@ -32,10 +32,7 @@ import {fetchFilter} from '../actions/actions';
 		}
 
 		var fixed = {
-   			position: 'fixed',
-   			right: '0',
-   			top: '5',
-   			width: '30%',
+   			
    			lineHeight: '50%'
 		}
 
@@ -52,15 +49,10 @@ import {fetchFilter} from '../actions/actions';
 
 		var restaurantList;
 		if(this.props.restaurants.data){
-			
-			// if(Array.isArray(this.props.restaurants.data[0]))
-			// 	restaurantList = this.props.restaurants.data[0];
-			// else
-				restaurantList = this.props.restaurants.data;
+				restaurantList = this.props.restaurants.data[0];
 		}
-		
-		console.log("RESTAURANTS",this.props.restaurants)
-		return(	<div style ={fixed}>
+
+		return(	<div style ={fixed} className = 'theFilter'>
 			{restaurantList?<form>
 				<h5>Filter</h5>
 			<div style={radioStyle}><br/>Terminal:
@@ -102,7 +94,7 @@ import {fetchFilter} from '../actions/actions';
 				})}
 				<br/><br/><br/>	
 			</div>
-			<div><img style={imageSize} src={map} /></div>
+			<div><img style={imageSize} src={this.state.maps || this.props.restaurants.data[1][0].map} /></div>
 			</form>: null}
 
 			</div>
@@ -130,8 +122,13 @@ import {fetchFilter} from '../actions/actions';
 		
 	}
 	handleTerminalChange(event){
-		//console.log("WHAT",event.target.value)
 		this.setState({terminals:event.target.value},function(){
+			for(var i = 0;i<this.props.restaurants.data[1].length;i++){
+				if(this.props.restaurants.data[1][i].terminal===this.state.terminals){
+					this.setState({maps:this.props.restaurants.data[1][i].map})
+				}
+			}
+			
 			this.props.fetchFilter(this.state)	
 		})
 		
@@ -141,23 +138,7 @@ import {fetchFilter} from '../actions/actions';
 		//console.log("now here",event)
 
 	}
-	grabTerminals(){
-		//console.log("HEY NOW",this.props.restaurants)
-		var restaurantSet = new Set();
-		if(this.props.restaurants.data){
-		var terminals = this.props.restaurants.data.map((restaurant)=>{
-			restaurantSet.add(restaurant.TERMINAL)
-			return restaurant.TERMINAL
-		})
-   		//console.log("SET",restaurantSet)
-   		this.setState({terminals:restaurantSet})
-			
-		}
-		else{
-			console.log("nothing here")
-		}
-		//console.log("TERMINALS",terminals)
-	}
+
 }
 
 

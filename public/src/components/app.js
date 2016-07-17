@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import SplashPage from './SplashPage'
 import SplashCarousel from './SplashCarousel'
+import NamePlate from './namePlate'
+import {connect} from 'react-redux'
+import { bindActionCreators} from 'redux';
 
-
-
-export default class App extends Component {
+ class App extends Component {
   render() {
     return (
-      <div className="fixthisshit">
+      <div >
+      <NamePlate />
+
+      {this.props.airport && this.props.restaurantList.data ? null:<SplashCarousel />}
       <SplashPage />
-	  <SplashCarousel />
+	  
       </div>
     );
   }
 }
+
+function mapStateToProps(state){
+  return {restaurantList: state.restaurants, airport:state.airportName}
+}
+
+export default connect(mapStateToProps)(App)
+

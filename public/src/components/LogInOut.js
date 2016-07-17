@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
-import {fetchSessionID} from '../actions/actions';
+import {fetchSessionID,fetchLogState} from '../actions/actions';
 import Reviews from './Reviews'
 
 class LogInOut extends Component {
@@ -15,11 +15,11 @@ class LogInOut extends Component {
                 loaded:false,
                 usernameError: false,
                 passwordErrod:false,
-                showForms:false,
+                showForms:this.props.logState,
                 loginClick:'button',
                 signupClick:'button'
                 }  //Might need to turn this into a prop force entire app to load at once.
-
+              this.props.fetchLogState(false)
 
   }
       
@@ -43,16 +43,16 @@ class LogInOut extends Component {
 
       {this.state.loaded?<div>
       
-      {this.props.sessionID.length ===0 ? <div><form><button type = {this.state.signupClick} onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
-                                            <button type = {this.state.loginClick} onClick = {this.onLogIn.bind(this)}>Log In!</button>
+      {this.props.sessionID.length ===0 ? <div><form><button className = 'btn' type = {this.state.signupClick} onClick = {this.onSignUp.bind(this)}>Sign Up!</button>
+                                            <button className = 'btn' type = {this.state.loginClick} onClick = {this.onLogIn.bind(this)}>Log In!</button>
                                          <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
-      {this.state.showForms  ? <div><input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
+      {this.props.logState  ? <div><input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
         {this.state.usernameError?<div>{this.state.usernameError}</div> : null}
         <input type = 'password' className = "form-control" placeholder = 'password' value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
               {this.state.passwordError?<div>{this.state.passwordError}</div> :null } </div>:null}
       </form>
       </div>: 
-       <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
+       <button className = 'btn' type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
        
       </div>:null}
       </div>
@@ -68,8 +68,9 @@ class LogInOut extends Component {
 
   onSignUp(event){   //Have clicking signup call parent component to show email/password forms
     event.preventDefault();
-     if(this.state.showForms === false){
-      this.setState({showForms:true,signupClick:'submit'})
+     if(this.props.logState === false){
+      this.setState({signupClick:'submit'})
+      this.props.fetchLogState(true)
     }
 
     else{
@@ -85,8 +86,10 @@ class LogInOut extends Component {
   }
   onLogIn(event){
     event.preventDefault();
-    if(this.state.showForms === false){
-      this.setState({showForms:true,loginClick:'submit'})
+    console.log('thisstate',this.state.showForms,this.props.logState)
+    if(this.props.logState === false){
+      this.props.fetchLogState(true)
+      this.setState({loginClick:'submit'})
     }
     else{
     axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
@@ -101,7 +104,8 @@ class LogInOut extends Component {
   }
   onLogOff(event){
     event.preventDefault();
-    this.setState({showForms:false,loginClick:'button',signupClick:'button'})
+    this.props.fetchLogState(false)
+    this.setState({loginClick:'button',signupClick:'button'})
     console.log(this.props.sessionID)
     axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
         this.props.fetchSessionID("");
@@ -123,10 +127,11 @@ class LogInOut extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fetchSessionID},dispatch)
+  return bindActionCreators({fetchSessionID,fetchLogState},dispatch)
 }
+
 function mapStateToProps(state){
-  return {sessionID : state.sessionID}
+  return {sessionID : state.sessionID, logState: state.logState}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogInOut)
