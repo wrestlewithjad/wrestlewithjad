@@ -169,26 +169,32 @@ var findByUserName = function(myName) {
 
 
 app.post('/signup',passport.authenticate('local-signup'),function(req,res){
-	console.log("HERE I AM")
-	//console.log('req',req.session.passport.user)
-	//console.log('res',req)
-	//insert sessionID into database
-	res.send(req.sessionID)
+	if(req.body.city.length>0){
+		grabRestaurants(req.body.city).then(function(response){
+			res.send({sessionID:req.sessionID,yourReviews:response})
+		})
+		
+	}
+	else{
+		res.send({sessionID:req.sessionID})
+	}
 	
 })
 
 app.post('/logIn', passport.authenticate('local-login'),function(req,res) {
-	//console.log("req.user",req.user)
-	//console.log('req.pass',req.session.passport.user)
+
 	var username = req.body.username;
 	var password = req.body.password;
-	// findByUserName(username).then(function(value) {
-	// 		checkPassword(password, value.password)
-	// 			//check password
-	// 	})
-		//find by username in the username table.
-		res.send(req.sessionID)
+
+	if(req.body.city.length>0){
+ 		grabRestaurants(req.body.city,req.user.userID,true).then(function(response){
+ 			res.send({sessionID:req.sessionID,yourReviews:response})
+ 		})
+	}else{
+	res.send({sessionID:req.sessionID})
+	}
 	//check if user credentials are good
+
 })
 app.post('/logOff',function(req,res){
 	//console.log()
@@ -204,9 +210,6 @@ app.get('/facebookLogin/Callback',passport.authenticate('facebook',{successRedir
 
 app.get('/restaurantList',function(req,res){
 	var city = req.query.city;
-	//console.log('city',city)
-
-	//var city = "Houston";
 	var user;
 	var isAuth;
 	if(req.user)
@@ -257,13 +260,8 @@ var grabRestaurants = function(city,user,auth){
 						}
 					}
 				}
-				//console.log("VALUE",value)
 				return [value,maps]
-				//var restaurantsAndUserReviews = [value,userValues]
-				//var resAndRev = value.concat(userValues)
-				//return [resAndRev,maps]
-				//return restaurantsAndUserReviews
-				//res.send(restaurantsAndUserReviews)
+
 			})
 			}	
 			else{

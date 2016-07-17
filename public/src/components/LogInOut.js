@@ -2,7 +2,7 @@
 import axios from 'axios'
 import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
-import {fetchSessionID,fetchLogState} from '../actions/actions';
+import {fetchSessionID,fetchLogState,fetchRestaurants} from '../actions/actions';
 import Reviews from './Reviews'
 
 class LogInOut extends Component {
@@ -75,7 +75,8 @@ class LogInOut extends Component {
 
     else{
 
-    axios.post('/signup',{username : this.state.userName, password : this.state.password}).then(value=>{
+    axios.post('/signup',{username : this.state.userName, password : this.state.password,city:this.props.airportName}).then(value=>{
+      this.props.fetchRestaurants({data:value.data.yourReviews})
       this.props.fetchSessionID(value.data)
       this.setState({usernameError:false})
     }).catch((err)=>{
@@ -92,9 +93,9 @@ class LogInOut extends Component {
       this.setState({loginClick:'submit'})
     }
     else{
-    axios.post('/logIn',{username:this.state.userName, password:this.state.password}).then(value =>{
-      this.props.fetchSessionID(value.data)
-      console.log('log in value',value);
+    axios.post('/logIn',{username:this.state.userName, password:this.state.password,city: this.props.airportName}).then(value =>{
+      this.props.fetchRestaurants({data:value.data.yourReviews})
+      this.props.fetchSessionID(value.data.sessionID)
       this.setState({passwordError:false})
     }).catch((err)=>{
       this.setState({passwordError:'Username or Password incorrect'})
@@ -127,11 +128,11 @@ class LogInOut extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fetchSessionID,fetchLogState},dispatch)
+  return bindActionCreators({fetchSessionID,fetchLogState,fetchRestaurants},dispatch)
 }
 
 function mapStateToProps(state){
-  return {sessionID : state.sessionID, logState: state.logState}
+  return {sessionID : state.sessionID, logState: state.logState, airportName:state.airportName}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogInOut)
