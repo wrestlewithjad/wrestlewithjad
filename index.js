@@ -53,8 +53,8 @@ app.get('/', function(req, res) {
 
 app.get('/LoggedIn',function(req,res){
 	if(req.isAuthenticated()){
-		console.log("req.user",req.user)
-	console.log('req.pass',req.session.passport.user)
+		//console.log("req.user",req.user)
+	//console.log('req.pass',req.session.passport.user)
 		//console.log("REQ",req)
 		//console.log("REQ_USER",req.user)
 		res.send(req.sessionID);
@@ -88,30 +88,36 @@ app.post('/review', function(req,res) {
 			}
 			else{
 				newValue = {user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport,userScore:score,oldScore:value[0].userScore}
-				console.log('NEW',newValue)
+				//console.log('NEW',newValue)
 				return knex('userAirportJoin').where({user_id:req.user.userID,restaurant_id:restaurant,airport_id:airport}).update({userScore:score}).return(newValue)
 			}
 		}).then(function(yourValue){
-			console.log("YOURVALUE",yourValue)
+			//console.log("YOURVALUE",yourValue)
 			//update the review average and the number of reviewers
 			knex('airportRestaurants').select().where({airport_id:airport,restaurant_id:restaurant}).then(function(selected){
 				if(selected[0].averageReview){
 					var newAverage;
-					console.log("SELECTED",selected)
+					//console.log("SELECTED",selected)
 					if(yourValue.oldScore){
 						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore)-Number(yourValue.oldScore))/Number((selected[0].reviewerTotal))
-						console.log('NEWAVG',newAverage)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).then(function(value){
-							grabRestaurants(airport,req.user.userID,true).then(function(response){
-								console.log("RESPONSE",response)
+						//console.log('NEWAVG',newAverage)
+						knex('airportRestaurants').returning(['averageReview','reviewerTotal']).where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage}).then(function(value){
+							//console.log("THIS VALUE",value)
+							//res.send(value)
+							grabRestaurants(req.body.airportName,req.user.userID,true).then(function(response){
+								//console.log("RESPONSE",response)
 								res.send(response);
 							});
 						})
 					}
 					else{
 						newAverage = (Number(selected[0].averageReview)*Number(selected[0].reviewerTotal)+Number(yourValue.userScore))/Number((selected[0].reviewerTotal)+1)
-						knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:knex.raw('reviewerTotal+1')}).then(function(value){
-							grabRestaurants(airport,req.user.userID,true).then(function(response){
+						//console.log("airportID",airport)
+						newTotal = Number(selected[0].reviewerTotal+1);
+						knex('airportRestaurants').returning(["averageReview","reviewerTotal"]).where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:newAverage,reviewerTotal:newTotal}).then(function(value){
+							//console.log("DOES THIS WORK?",value);
+							//res.send(value)
+							grabRestaurants(req.body.airportName,req.user.userID,true).then(function(response){
 								res.send(response);
 							});
 						})
@@ -121,7 +127,7 @@ app.post('/review', function(req,res) {
 				}
 				else{
 					knex('airportRestaurants').where({airport_id:airport,restaurant_id:restaurant}).update({averageReview:yourValue.userScore,reviewerTotal:1}).then(function(value){
-							grabRestaurants(airport,req.user.userID,true).then(function(response){
+							grabRestaurants(req.body.airportName,req.user.userID,true).then(function(response){
 								res.send(response);
 							});
 						})
@@ -246,7 +252,7 @@ app.get('/restaurantList',function(req,res){
 
 var grabRestaurants = function(city,user,auth){
 
-	console.log("CITY",city, "HERE",Number(city))
+	//console.log("CITY",city, "HERE",Number(city))
 	return knex.select().from('airports').where({'AIRPORT_CITY':city}).then(function(airportValues){
 		if(airportValues.length ==0){
 			console.log("HERE I AM")

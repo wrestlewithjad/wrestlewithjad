@@ -45,20 +45,20 @@ class Reviews extends Component {
 			var score = event.target.value
 			this.setState({numGreen:score})
 			console.log(this.props.restaurants)
-			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
+			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score, airportName: this.props.airportName})
 				.then((response)=>{
-					console.log("INGO",this.props.restaurant_info)
-
-					axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
-				.then((response)=>{
-					this.props.fetchRestaurants(response)
-				})
-
-			
-
-					//look through this.props.restaurants until you find the one that 
-
-
+					// console.log("RESPONSE",response);
+					// console.log("INGO",this.props.restaurant_info)
+					// var newRestaurantInfo = {};
+					// for(var key in this.props.restaurant_info){
+					// 	newRestaurantInfo[key]=this.props.restaurant_info[key]
+					// }
+					//newRestaurantInfo[response]
+					//this.props.fetchRestaurants()
+				// 	axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score})
+				// .then((response)=>{
+				 	this.props.fetchRestaurants(response)
+				// })
 
 				})
 		}
@@ -84,7 +84,7 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchRestaurants},dispatch)
 }
 function mapStateToProps(state){
-  return {restaurants : state.restaurants}
+  return {restaurants : state.restaurants,airportName : state.airportName}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
