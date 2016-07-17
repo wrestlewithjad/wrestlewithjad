@@ -5,21 +5,15 @@ var FACEBOOK_ID = '1072551932833605'
 var FACEBOOK_SECRET = '617389ad8cc5282079e63445d7c7091b'
 var FACEBOOK_CALLBACK_URL = 'http://localhost:4040/facebookLogin/Callback'	
 var PROFILE_FIELDS = ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']			
+var moreConfig = require('./knexfile.js')
+var env = 'staging'
+var knex = require('knex')(moreConfig[env])
 
 
-var knex = require('knex')({
-	client: 'sqlite3',
-	connection: {
-		filename: './airports.sqlite3'
-	},
-	migrations: {
-		tableName: 'airports'
-	}
-});
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done) {
-	//console.log("SU",user.userID,done)
+	console.log("SU",user,done)
   done(null, user.userID);   //this value is stored in req.session.passport.user
 });
 
@@ -44,15 +38,18 @@ passport.deserializeUser(function(id, done) {  //The reason you don't store enti
 passport.use('local-signup',new LocalStrategy(
 	function(username,password,callback){
 	//console.log("")
+	console.log("UN",username,password)
 	process.nextTick(function(){
 		//email = "hello"
 
 		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+			console.log("VALUE",value)
 			if(value.length>0){
 				return callback(null,false);  //This sends back a 401 error.
 				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
 			}
 			addUser(username,password).then(function(value){
+				console.log("THIS VALUE",value)
 				//console.log('UN',username,'PW',password,'HASH',value)
 					return callback(null,value)			
 			})
@@ -177,10 +174,11 @@ function addUser(userName, password) {
 			return knex.select().from('users').where({facebookEmail:userName}).then(function(value){
 				console.log("WHAT IS THIS",value)
 				if(value.length==0){
-					return knex('users').insert({
+					return knex('users').returning('userID').insert({
 				username: userName,
 				password: hashWord
 				}).then(function(value){
+					console.log('Valll',value)
 					return {userID:value[0]}
 			})
 				}

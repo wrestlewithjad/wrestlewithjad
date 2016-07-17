@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
       	table.integer('userScore');
     }),
     knex.schema.table('airportRestaurants', function(table){
-    	table.integer('averageReview')
+    	table.decimal('averageReview')
     })
 
   ])

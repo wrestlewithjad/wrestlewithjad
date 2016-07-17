@@ -48,12 +48,11 @@ class LogInOut extends Component {
                                          <a href = '/facebookLogin' className = "btn btn-danger">facebook! </a>
       {this.state.showForms  ? <div><input type = 'text' className = "form-control" placeholder = 'email' value = {this.state.userName} onChange={event => this.onUserNameChange(event.target.value)}/>             
         {this.state.usernameError?<div>{this.state.usernameError}</div> : null}
-        <input type = 'text' className = "form-control" placeholder = 'password' value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
+        <input type = 'password' className = "form-control" placeholder = 'password' value = {this.state.password} onChange={event =>this.onPasswordChange(event.target.value)}/>
               {this.state.passwordError?<div>{this.state.passwordError}</div> :null } </div>:null}
       </form>
       </div>: 
        <button type = 'button' onClick = {this.onLogOff.bind(this)}>Log Off!</button>}
-       <button type = 'button' onClick = {this.getRestaurants.bind(this)}> get Restaurants </button>
        
       </div>:null}
       </div>
@@ -106,6 +105,7 @@ class LogInOut extends Component {
     console.log(this.props.sessionID)
     axios.post('/logOff',{id:this.props.sessionID}).then(() =>{
         this.props.fetchSessionID("");
+        this.setState({userName:"",password:""})
     })
   
   }

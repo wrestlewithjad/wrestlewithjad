@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import LogInOut from './LogInOut'
 import Reviews from './Reviews'
+import {connect} from 'react-redux'
+import { bindActionCreators} from 'redux';
+import {fetchSessionID} from '../actions/actions';
 
-
-export default class EachRestaurant extends Component {
+class EachRestaurant extends Component {
 
 	constructor(props){
 		super(props)
@@ -68,7 +70,7 @@ export default class EachRestaurant extends Component {
     return (
       <div className = 'eachRestaurant' style={divStyle}>
      	<div style={revStyle}>{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
-		<Reviews restaurant_info = {eachRest} />
+		{this.props.sessionID?<Reviews restaurant_info = {eachRest} />:null}
      	</div>
       	{this.props.restaurant_info.LOGO?<img style ={imgStyle} src={this.props.restaurant_info.LOGO}/> :<img style={imgStyle} src='http://www.tastelikehome.co.za/wp-content/uploads/2015/10/cpg-foods-icon.png'/> }
       	<div style={nameStyle}><p><a href = {this.props.restaurant_info.MENU_WEBSITE} target='_blank'>  {this.props.restaurant_info.NAME}</a></p></div>
@@ -80,3 +82,8 @@ export default class EachRestaurant extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  return {sessionID : state.sessionID}
+}
+
+export default connect(mapStateToProps)(EachRestaurant)
