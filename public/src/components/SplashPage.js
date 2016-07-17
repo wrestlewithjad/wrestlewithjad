@@ -7,13 +7,11 @@ import Filter from './filter'
 export default class App extends Component {
   render() {
     return (
-      <div>This is the Splash Page
       <div>
       <LogInOut />
       <SearchBar />
       <Filter />
       <RestaurantList />
-      </div>
       </div>
     );
   }
