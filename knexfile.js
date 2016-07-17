@@ -19,8 +19,8 @@ module.exports = {
     client: 'postgresql',
     connection: {
       database: 'TerminalHunger',
-      user:     'postgres',
-      password: 'j102106c'
+      user:     'testUser',
+      password: 'test123'
     },
     pool: {
       min: 2,
