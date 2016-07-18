@@ -18,9 +18,10 @@ TEAM DEVELOPMENT ROLES
   * Reactive Front end. Mobile Ready
   * GPS location search
 
-# Guidelines 
+# Guidelines
   Prioritize understanding redux - http://redux.js.org/
-  Only you can prevent forest fires. 
+ 
+  "He who fights with monsters should be careful lest he thereby become a monster. And if thou gaze long into an abyss, the abyss will   also gaze into thee." have fun kids 
 
 # Running App
   
