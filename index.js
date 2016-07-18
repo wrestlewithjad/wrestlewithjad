@@ -8,10 +8,8 @@ var request = require('request');
 
 var bcrypt = require('bcrypt-nodejs');
 var uuid = require('node-uuid');
-cors = require('cors')
 var app = express();
 module.exports = app;
-app.use(cors());
 app.use(bodyParser.json());
 const compiler = webpack(config);
 app.use(express.static(__dirname + '/public'));
@@ -25,8 +23,7 @@ var passport = require('passport');
 var session = require('express-session');
 var LocalStrategy   = require('passport-local').Strategy;
 //console.log('LS',LocalStrategy)
-var GITHUB_CLIENT_ID = "6b4078dcd8c8aae79a63";
-var GITHUB_CLIENT_SECRET = "7319b8f69f730102c7cc6d7979363ee63f007d44";
+
 
 
 
