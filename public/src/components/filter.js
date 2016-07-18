@@ -39,7 +39,7 @@ import {fetchFilter} from '../actions/actions';
 			{restaurantList?<form>
 				<h5>Filter</h5>
 			<div style={radioStyle}><br/>Terminal:
-			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any'} onChange={this.handleTerminalChange.bind(this)}/> All </li>
+			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any' || this.props.filters != this.state} onChange={this.handleTerminalChange.bind(this)}/> All </li>
 			 {( restaurantList.map(restaurant=>{
 				return restaurant.TERMINAL
 				}).filter(function(item,index,array){return array.indexOf(item)===index}).map(terminals =>{
@@ -55,7 +55,7 @@ import {fetchFilter} from '../actions/actions';
 			<li className ='filter'><input type='radio' name = 'price' value = '$$' checked = {this.state.price ==='$$'} onChange={this.handlePriceChange.bind(this)}/> $$  </li>
 			<li className ='filter'><input type='radio' name = 'price' value = '$$$' checked = {this.state.price ==='$$$'} onChange={this.handlePriceChange.bind(this)}/> $$$</li>
 			<li className ='filter'><input type='radio' name = 'price' value = '$$$$' checked = {this.state.price ==='$$$$'} onChange={this.handlePriceChange.bind(this)}/> $$$$  </li>
-			<li className ='filter'><input type='radio' name = 'price' value = 'Any' checked = {this.state.price ==='Any'} onChange={this.handlePriceChange.bind(this)}/> All</li>
+			<li className ='filter'><input type='radio' name = 'price' value = 'Any' checked = {this.state.price ==='Any'|| this.props.filters != this.state} onChange={this.handlePriceChange.bind(this)}/> All</li>
 			</div>
 
 			<div style={radioStyle}>
@@ -63,12 +63,12 @@ import {fetchFilter} from '../actions/actions';
 			<li className ='filter'><input type='radio' name = 'speed' value = 'To-go' checked = {this.state.speed ==='To-go'} onChange={this.handleOptionChange.bind(this)}/> Grab & Go</li>
 			<li className ='filter'><input type='radio' name = 'speed' value = 'Food court' checked = {this.state.speed ==='Food court'} onChange={this.handleOptionChange.bind(this)}/> Food Court  </li>
 			<li className ='filter'><input type='radio' name = 'speed' value = 'Sit-down' checked = {this.state.speed ==='Sit-down'} onChange={this.handleOptionChange.bind(this)}/> Sit Down </li>
-			<li className ='filter'><input type='radio' name = 'speed' value = 'Any' checked = {this.state.speed ==='Any'} onChange={this.handleOptionChange.bind(this)}/> All</li>
+			<li className ='filter'><input type='radio' name = 'speed' value = 'Any' checked = {this.state.speed ==='Any'|| this.props.filters != this.state} onChange={this.handleOptionChange.bind(this)}/> All</li>
 			</div>
 
 			<div style={radioStyle}>
 			<br/><br/>Type:<br/><br/>
-			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'} onChange={this.handleTypeChange.bind(this)}/> All</li>
+			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'|| this.props.filters != this.state} onChange={this.handleTypeChange.bind(this)}/> All</li>
 			 {restaurantList.map(restaurant=>{
 				return restaurant.TYPE
 				}).filter(function(item,index,array){ 
@@ -77,7 +77,7 @@ import {fetchFilter} from '../actions/actions';
 				})}
 				<br/><br/><br/>	
 			</div>
-			<div><img className = 'mapImage' src={this.state.maps || this.props.restaurants.data[1][0].map} /></div>
+			<div><img className = 'mapImage' src={this.props.filters != this.state ? this.props.restaurants.data[1][0].map :(this.state.maps || this.props.restaurants.data[1][0].map)} /></div>
 			</form>: null}
 
 			</div>
@@ -105,14 +105,18 @@ import {fetchFilter} from '../actions/actions';
 		
 	}
 	handleTerminalChange(event){
+		console.log("STATE",this.state)
 		this.setState({terminals:event.target.value},function(){
 			for(var i = 0;i<this.props.restaurants.data[1].length;i++){
 				if(this.props.restaurants.data[1][i].terminal===this.state.terminals){
-					this.setState({maps:this.props.restaurants.data[1][i].map})
+					console.log("YEA!")
+					this.setState({maps:this.props.restaurants.data[1][i].map},function(){
+						this.props.fetchFilter(this.state)
+					})
 				}
 			}
 			
-			this.props.fetchFilter(this.state)	
+				
 		})
 		
 	}
@@ -129,7 +133,7 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchFilter},dispatch)
 }
 function mapStateToProps(state){
-  return {restaurants : state.restaurants}
+  return {restaurants : state.restaurants, filters:state.filters}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)
