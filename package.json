@@ -33,6 +33,7 @@
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
     "cors": "^2.7.1",
+    "express": "^4.14.0",
     "express-session": "^1.14.0",
     "knex": "^0.11.7",
     "knex-csv-seeder": "^0.4.1",
