@@ -7,27 +7,23 @@ var bodyParser = require('body-parser');
 var request = require('request');
 
 var bcrypt = require('bcrypt-nodejs');
-var uuid = require('node-uuid');
 var app = express();
 module.exports = app;
 app.use(bodyParser.json());
+
 const compiler = webpack(config);
 app.use(express.static(__dirname + '/public'));
 app.use(webpackMiddleware(compiler));
+
 var moreConfig = require('./knexfile.js')
 var env = 'staging'
 var knex = require('knex')(moreConfig[env])
 knex.migrate.latest([moreConfig]);
+
 var passport = require('passport');
-//var GitHubStrategy = require('passport-github2').Strategy;
 var session = require('express-session');
 var LocalStrategy   = require('passport-local').Strategy;
-//console.log('LS',LocalStrategy)
 
-
-
-
-//require('./app/routes.js')(app, passport);
 require('./passport')(passport);
 
 
@@ -41,19 +37,12 @@ app.use(passport.session());
 
 
 app.get('/', function(req, res) {
-	//console.log("req",req)
-	//console.log("authentic",req.isAuthenticated())
-	//res.send(req) //the req passes in a session id.
 	res.sendFile(__dirname + '/public/client/index.html')
 })
 
 
 app.get('/LoggedIn',function(req,res){
 	if(req.isAuthenticated()){
-		//console.log("req.user",req.user)
-	//console.log('req.pass',req.session.passport.user)
-		//console.log("REQ",req)
-		//console.log("REQ_USER",req.user)
 		res.send(req.sessionID);
 	}else{
 		res.send(false);
@@ -62,10 +51,7 @@ app.get('/LoggedIn',function(req,res){
 })
 
 app.get('/facebookReturn', function(req,res) {
-	//console.log("authentic",req.isAuthenticated)
-	//console.log(req)
 	res.sendFile(__dirname + '/public/client/index.html')
-	//res.send("he he")
 	})
 	//Get all reviews for the airport.  Make middlewear to check if the user is signed in and if he is, show that user's reviews
 app.post('/review', function(req,res) {
