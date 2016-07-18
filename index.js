@@ -234,6 +234,7 @@ var grabRestaurants = function(city,user,auth){
 
 	//console.log("CITY",city, "HERE",Number(city))
 	return knex.select().from('airports').where({'AIRPORT_CITY':city}).then(function(airportValues){
+		console.log("AIRPORT VALUES",airportValues)
 		if(airportValues.length ==0){
 			console.log("HERE I AM")
 			return null
@@ -242,12 +243,10 @@ var grabRestaurants = function(city,user,auth){
 			//console.log("APV",airportValues[0].)
 	return knex.select().from('maps').where({airport_id:airportValues[0].UNIQUE_ID}).then(function(maps){
 		console.log("MAPS",maps)
-		return knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select()
+		return knex('airportRestaurants').join('restaurants','restaurant_id','=','restaurants.UNIQUE_ID').select().where({airport_id:airportValues[0].UNIQUE_ID})
 		.then(function(value){
 			if(auth){
 			return knex.select().from('userAirportJoin').where({user_id:user,airport_id:airportValues[0]['UNIQUE_ID']}).then(function(userValues){
-				//console.log("THIS IS WORKING",value)
-				//console.log("THIS IS MAYBE WORKING",userValues)
 				for(var i=0;i<value.length;i++){
 					for(var j =0;j<userValues.length;j++){
 						//console.log("VR",value[i],"UR",userValues[j])
