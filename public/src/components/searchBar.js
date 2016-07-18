@@ -5,7 +5,8 @@ import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
 import RestaurantList from './RestaurantList';
 import {fetchAirport} from '../actions/actions';
-import {fetchRestaurants} from '../actions/actions';
+import {fetchRestaurants, fetchFilter} from '../actions/actions';
+
 
 class SearchBar extends Component {
 	constructor(props){
@@ -45,7 +46,7 @@ class SearchBar extends Component {
     			this.props.fetchRestaurants(value)
     			this.setState({term:""})
     			if(value.data){
-    				console.log("hereee")
+    				this.props.fetchFilter({speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false})
     				this.setState({searchBar:'search-bar-2'})
     			}
     			//console.log("RES",this.state.restaurants)
@@ -60,7 +61,7 @@ class SearchBar extends Component {
  //    }
 }
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fetchAirport,fetchRestaurants},dispatch)
+  return bindActionCreators({fetchAirport,fetchRestaurants,fetchFilter},dispatch)
 }
 
 
