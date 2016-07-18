@@ -51,6 +51,8 @@
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "redux-form": "^5.3.1",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+        "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   }
 }
