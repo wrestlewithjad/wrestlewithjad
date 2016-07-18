@@ -16,11 +16,13 @@ module.exports = {
   // },
 
   staging: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
-      database: 'TerminalHunger',
-      user:     'testUser',
-      password: 'test123'
+    host     : process.env.PG_HOST || 'localhost',
+    user     : process.env.PG_USER || 'testUser',
+    password : process.env.PG_PASSWORD || 'test123',
+    database : process.env.PG_DB || 'TerminalHunger',
+    charset  : 'utf8'
     },
     pool: {
       min: 2,
