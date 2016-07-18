@@ -33,6 +33,7 @@ import {fetchFilter} from '../actions/actions';
 		if(this.props.restaurants.data){
 				restaurantList = this.props.restaurants.data[0];
 		}
+		console.log("RES LIST",this.props.restaurants)
 
 		return(	<div style ={fixed} className = 'theFilter'>
 			{restaurantList?<form>

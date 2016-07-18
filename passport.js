@@ -2,7 +2,7 @@ var LocalStrategy   = require('passport-local').Strategy;  //Might want to store
 var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcrypt-nodejs');	
 var FACEBOOK_ID = '1072551932833605'
-var FACEBOOK_SECRET = '617389ad8cc5282079e63445d7c7091b'
+var FACEBOOK_SECRET = 'PUT REAL SECRET HERE'
 var FACEBOOK_CALLBACK_URL = 'http://localhost:4040/facebookLogin/Callback'	
 var PROFILE_FIELDS = ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']			
 var moreConfig = require('./knexfile.js')
@@ -42,17 +42,32 @@ passport.use('local-signup',new LocalStrategy(
 	process.nextTick(function(){
 		//email = "hello"
 
-		knex.select('username').from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+
+		knex.select().from('users').where({username:username}).orWhere({facebookEmail:username}).then(function(value){ //find a user in table with correct email
 			console.log("VALUE",value)
 			if(value.length>0){
-				return callback(null,false);  //This sends back a 401 error.
-				//return callback(null,false,req.flash('signupMessage', 'That email is already taken.'))
+				if(value[0].username){
+					return callback(null,false);
+				}
+				else{
+					return hashPassword(password).then(function(hashword){
+						return knex('users').returning('userID').where({facebookEmail:username}).update({username:username,password:hashword}).then(function(value){
+							console.log('users',value)
+							return callback(null,{userID:value[0]})
+						})
+					})
+					
+
+				}
+
 			}
+			else{
 			addUser(username,password).then(function(value){
 				console.log("THIS VALUE",value)
 				//console.log('UN',username,'PW',password,'HASH',value)
 					return callback(null,value)			
 			})
+	}
 			
 		
 			
@@ -67,9 +82,10 @@ passport.use('local-login',new LocalStrategy(
 	process.nextTick(function(){
 		//email = "hello"
 
-		knex.select().from('users').where({username:username}).orWhere({facebookEmail:username}).then(function(value){ //find a user in table with correct email
-			//console.log("userValue",value)
+		knex.select().from('users').where({username:username}).then(function(value){ //find a user in table with correct email
+			console.log("userValue",value)
 			if(value.length>0){
+
 				comparePassword(value[0].password,password).then(function(newValue){
 					if(newValue ===true)
 						return callback(null,value[0]);
@@ -119,27 +135,6 @@ passport.use(new FacebookStrategy({
 	})
 
 }))
-
-// passport.use(new GitHubStrategy({
-//     clientID: GITHUB_CLIENT_ID,
-//     clientSecret: GITHUB_CLIENT_SECRET,
-//     callbackURL: "http://localhost:4040/auth/github/callback",
-//     passReqToCallback: true
-//   },
-//   function(req, accessToken, refreshToken, profile, done) {
-//     console.log( "req", Object.keys(req))
-//     console.log( "profile", profile)
-//     // User.gitFindById(profile.id).then(function(value){
-//     //   if(value){
-//     //     console.log("already in database",value)
-//     //   }
-//     //   else{
-//     //     console.log("now it is in database",profile.id)
-//     //     User.gitCreate(profile.id)
-//     //   }
-//     // })
-
-
 
 
 
