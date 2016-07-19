@@ -2,7 +2,9 @@ import React, { Component, StyleSheet } from 'react';
 import ReactDOM from 'react-dom';
 import Carousel from 'nuka-carousel'
 
-
+//This is just a nuka-carousel.  there is terrible documentation for it so you might want to remove this and replace it with a better carousel type.
+//Also, this seems to make things weird when you open up the debugger console.
+//On the plus side, did you know that a stoat (the animal in the last picture) can a much larger rabbit?  Pretty crazy.  
 var SplashCarousel = React.createClass({
   render: function() {
     return (
@@ -24,7 +26,6 @@ var SplashCarousel = React.createClass({
 });
 
 var Decorators = [{
-  //still need to figure out how to remove this button
   component: React.createClass({
     render() {
       return (

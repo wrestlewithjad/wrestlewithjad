@@ -2,6 +2,9 @@
   "name": "fullstack-assessment",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "6.2.1"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,12 +33,14 @@
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
     "cors": "^2.7.1",
+    "express": "^4.14.0",
     "express-session": "^1.14.0",
     "knex": "^0.11.7",
     "knex-csv-seeder": "^0.4.1",
     "lodash": "^3.10.1",
     "node-uuid": "^1.4.7",
     "nodemon": "^1.9.2",
+    "nuka-carousel": "^2.0.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github2": "^0.1.10",
@@ -48,6 +53,9 @@
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "redux-form": "^5.3.1",
-    "sqlite3": "^3.1.4"
+    "request": "^2.73.0",
+    "sqlite3": "^3.1.4",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   }
 }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import MiddleSplash from './MiddleSplash';
 import {connect} from 'react-redux'
 import { bindActionCreators} from 'redux';
 import RestaurantList from './RestaurantList';
@@ -21,7 +20,7 @@ class SearchBar extends Component {
 		return(
 			<div className = {this.state.searchBar}>
 			<form className={this.state.searchBar}
-			onSubmit = {this.onSearch.bind(this)}>
+				onSubmit = {this.onSearch.bind(this)}>
 				<input
 					value = {this.state.term.toLowerCase()}
 					placeholder = 'SEARCH!'
@@ -31,44 +30,26 @@ class SearchBar extends Component {
 			</div>
 		);
 	}
-
-	onInputChange(term){
+	onInputChange(term){		//basic way to have a search bar work with React
 		this.setState({term});
 	}
-
-
-
 	onSearch(event){
 		event.preventDefault();
-		this.props.fetchAirport(this.state.term)
-			axios.get('/restaurantList',{params:{city: this.state.term}}).then((value)=> {
-				console.log('VALUE',value)
-    			this.props.fetchRestaurants(value)
-    			this.setState({term:""})
-    			if(value.data){
-    				this.props.fetchFilter({speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false})
-    				this.setState({searchBar:'search-bar-2'})
+		this.props.fetchAirport(this.state.term)  //Set the airport up in Redux
+			axios.get('/restaurantList',{params:{city: this.state.term}}).then((value)=> {  //Grab the restaurants
+    			this.props.fetchRestaurants(value)  //set the restaurants in Redux
+    			this.setState({term:""})		//Clear out the search bar
+    			if(value.data){	//if your search for restaurants returned something
+    				this.props.fetchFilter({speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false}) //reset the filters
+    				this.setState({searchBar:'search-bar-2'})	//change the search bar to the 2nd style so it's not in the way anymore.
     			}
-    			//console.log("RES",this.state.restaurants)
     					})
 
 	}
-
-	// componentDidMount() {
- //    	axios.get('/restaurantList').then( value =>{
- //    		console.log('restaurantList', value)
- //    	})
- //    }
 }
 function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchAirport,fetchRestaurants,fetchFilter},dispatch)
 }
 
 
-export default connect(null, mapDispatchToProps)(SearchBar)
-//export default SearchBar;
-
-
-//compare users input to db with airport city
-//if city exists pop up the restaurants
-//if not say "airport coming sooooon"
+export default connect(null, mapDispatchToProps)(SearchBar)  //This doesn't need stateToProps so we just attach mapDispatch

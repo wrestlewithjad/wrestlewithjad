@@ -6,17 +6,10 @@ import {fetchFilter} from '../actions/actions';
  class Filter extends Component{
 	constructor(props){
     super(props)
-    this.state={speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false}
-    this.props.fetchFilter(this.state)
+    this.state={speed: 'Any',terminals:'Any',price:"Any",types:'Any',map:false}  //by default, filter should go to Any
     }
-    //this.state = {restaurants: this.props.restaurants}
-  
-
 	render(){
-		//this.grabTerminals()
-
-
-		var fixed = {
+		var fixed = {	//We had different people work on CSS and sometimes they didn't use our style sheet.
    			
    			lineHeight: '50%'
 		}
@@ -26,24 +19,20 @@ import {fetchFilter} from '../actions/actions';
 			float: 'left',
 			fontSize: '90%'
 		}
-
-
-
 		var restaurantList;
 		if(this.props.restaurants.data){
-				restaurantList = this.props.restaurants.data[0];
+				restaurantList = this.props.restaurants.data[0];	//This is grabbing all the data from the restaurants.
 		}
-		console.log("RES LIST",this.props.restaurants)
-
+		//comments are annoying in return statements.  So what this does is make a radio button filter.  The terminal and restaurants are dynamically created with the restaurant terminal data.
 		return(	<div style ={fixed} className = 'theFilter'>
 			{restaurantList?<form>
 				<h5>Filter</h5>
 			<div style={radioStyle}><br/>Terminal:
-			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.state.terminals ==='Any' || this.props.filters != this.state} onChange={this.handleTerminalChange.bind(this)}/> All </li>
+			 <li className ='filter'><input type='radio' name = 'terminal' value = 'Any' checked = {this.props.filters.terminals =='Any'} onChange={this.handleTerminalChange.bind(this)}/> All </li>
 			 {( restaurantList.map(restaurant=>{
 				return restaurant.TERMINAL
 				}).filter(function(item,index,array){return array.indexOf(item)===index}).map(terminals =>{
-					return <li className ='filter' key = {terminals}><input type='radio' name = 'terminal' value = {terminals} checked = {this.state.terminals ===terminals} onChange={this.handleTerminalChange.bind(this)}/> {terminals}</li>
+					return <li className ='filter' key = {terminals}><input type='radio' name = 'terminal' value = {terminals} checked = {this.props.filters.terminals ===terminals} onChange={this.handleTerminalChange.bind(this)}/> {terminals}</li>
 				})
 			)}
 			</div>
@@ -68,12 +57,12 @@ import {fetchFilter} from '../actions/actions';
 
 			<div style={radioStyle}>
 			<br/><br/>Type:<br/><br/>
-			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.state.types ==='Any'|| this.props.filters != this.state} onChange={this.handleTypeChange.bind(this)}/> All</li>
+			 <li className ='filter'><input type='radio' name = 'type' value = 'Any' checked = {this.props.filters.types ==='Any'} onChange={this.handleTypeChange.bind(this)}/> All</li>
 			 {restaurantList.map(restaurant=>{
 				return restaurant.TYPE
 				}).filter(function(item,index,array){ 
 				 return array.indexOf(item)===index}).map(types =>{
-					return <li className ='filter' key = {types}><input type='radio' name = 'type' value = {types} checked = {this.state.types ===types} onChange={this.handleTypeChange.bind(this)}/> {types}</li>
+					return <li className ='filter' key = {types}><input type='radio' name = 'type' value = {types} checked = {this.props.filters.types === types} onChange={this.handleTypeChange.bind(this)}/> {types}</li>
 				})}
 				<br/><br/><br/>	
 			</div>
@@ -83,7 +72,9 @@ import {fetchFilter} from '../actions/actions';
 			</div>
 			)
 	}
-
+//These functions are for when you click on any of the filters.  You set the state AND THEN you update the Redux filter object
+//There is a bug here where if you change cities, everything gets set to All, except the state doesn't actually change.  This means that it will send the
+//old state info as soon as you change the filter again as this grabs the state.  
 	handleOptionChange(event){
 
 		this.setState({speed:event.target.value},function(){
@@ -104,28 +95,18 @@ import {fetchFilter} from '../actions/actions';
 		})
 		
 	}
-	handleTerminalChange(event){
-		console.log("STATE",this.state)
+	handleTerminalChange(event){		//This one is slightly longer because it's also grabbing the map.
 		this.setState({terminals:event.target.value},function(){
 			for(var i = 0;i<this.props.restaurants.data[1].length;i++){
 				if(this.props.restaurants.data[1][i].terminal===this.state.terminals){
-					console.log("YEA!")
 					this.setState({maps:this.props.restaurants.data[1][i].map},function(){
 						this.props.fetchFilter(this.state)
 					})
 				}
-			}
-			
-				
+			}		
 		})
 		
 	}
-	grabFilters(event){
-		event.preventDefault();
-		//console.log("now here",event)
-
-	}
-
 }
 
 
