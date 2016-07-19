@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(webpackMiddleware(compiler));
 
 var moreConfig = require('./knexfile.js')
-var env = 'staging'
+var env = 'production'
 var knex = require('knex')(moreConfig[env])
 knex.migrate.latest([moreConfig]);
 
