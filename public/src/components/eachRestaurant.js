@@ -13,7 +13,7 @@ class EachRestaurant extends Component {
 	}
 
   render() {
-
+//Sometimes you just don't want to open a css file.
   	var eachRest = this.props.restaurant_info
 
   	var divStyle = {
@@ -67,8 +67,7 @@ class EachRestaurant extends Component {
 
 
     return (
-      
-      {/* Creates unique component for each restaurant in the parent RestaurantList component*/}	
+      	
       <div className = 'eachRestaurant'>
      	<div style={revStyle}>
      		{this.props.restaurant_info.averageReview ? showStars + '  ' + this.props.restaurant_info.reviewerTotal + ' reviews' : 'Be the first to review!'}
