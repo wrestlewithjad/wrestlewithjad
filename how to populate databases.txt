@@ -1,15 +1,13 @@
-at command line, 
-knex migrate:latest
+1.  Install postgres and get it up and running, this might take some time.
+2.  Great!  Now create a database in postgres.
+3.  in the knex file, change the postgres database name to what you called it.
+4.  Make a user in postgres associated with the database.
+5.  Add that username and password to the postgres knex file.  You can also use the superuser you created on install.
+6.  Run the code, that will run the knex migrations.
+7.  Stop running the code, your postgres database should have all the tables in it now.
+8.  For Airports, maps, restaurants, and AirportRestaurants, you need to import our data.
+9.  Click import on each table, and then grab the 4 csv files here and put them in their respective tables.  Don't forget to put input type as csv.
+10.  You're all set up!
 
-then,
-
-To populate airport/restaurant databases, go into sqlite3 terminal and
-
-
-sqlite> .separator ','
-
-sqlite> .import airports.csv airports
-
-sqlite> .import WWJ-Restaurants.csv restaurants
-
-sqlite> .import join.csv airportRestaurants
+Here is a useful guide to creating a new user in postgres.
+https://support.chartio.com/knowledgebase/creating-a-user-with-pgadmin

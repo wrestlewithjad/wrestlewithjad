@@ -12,14 +12,8 @@ class Reviews extends Component {
 		this.state={
 			numGreen:this.props.restaurant_info.userScore
 		}
-
-	}
-
+	}	//The buttons are green is the state numGreen is larger than a specific number
 	render(){
-		console.log('props',this.props.restaurant_info)
-		//{console.log('DID THIS WORRRRRRK DID IT??', this.props.restaurant_info)}
-
-
 		return(
 			<div>
 				<form>
@@ -36,33 +30,16 @@ class Reviews extends Component {
 	
 	}
 		buttonClick (event){
-			var score = event.target.value
+			var score = event.target.value	//When you click a button, it sets numGreen to that value
 			this.setState({numGreen:score})
-			console.log(this.props.restaurants)
 			axios.post('/review',{restaurant: this.props.restaurant_info.restaurant_id, airport: this.props.restaurant_info.airport_id, score: score, airportName: this.props.airportName})
 				.then((response)=>{
-				 	this.props.fetchRestaurants(response)
-
-				})
+				 	this.props.fetchRestaurants(response)	//it then posts the review to Axios and then makes a new restaurant list with the added review.
+				 											//I chose to do it like this so that all reviews that have been made since you last last updated the
+				})											//restaurant list will come through, keeping the app up to date.
 		}
-		makeGreen(score){
-			for(var i=1;i<=score;i++){
-				var greenButton = 'button'+i
-				this.setState({[greenButton]:'btn btn-success'})
-				//console.log("heer",this.state.button1)
-			}
-			console.log("SCORE",score)
-			for(var j = Number(score)+1 ;j<=5; j++){
-				var greenButton = 'button'+j
-				console.log("gb",greenButton)
-				this.setState({[greenButton]:'btn'})
-			}
-		}
-		
 }
-
-
-//export default Reviews
+//Basic Redux setup.
 function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchRestaurants},dispatch)
 }
