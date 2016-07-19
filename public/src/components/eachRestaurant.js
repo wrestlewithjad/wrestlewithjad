@@ -9,7 +9,7 @@ class EachRestaurant extends Component {
 
 	constructor(props){
 		super(props)
-
+		console.log("Hey")
 	}
 
   render() {
